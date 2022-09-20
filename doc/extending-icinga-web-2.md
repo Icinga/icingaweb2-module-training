@@ -1,36 +1,44 @@
-# Extending Icinga Web 2
+# Extending Icinga Web
 
-## Write your own Icinga Web 2 module
+## Write your own Icinga Web module
 
-Welcome! Glad to see that you are here to write your first Icinga Web module. Icinga Web makes getting started as easy as possible. Over the next few hours we will discover how fun tinkering with Icinga Web 2 can be, with a series of practical examples.
+Welcome! Glad to see that you are here to write your first Icinga Web module. Icinga Web makes getting started as easy
+as possible. Over the next few hours we will discover how fun tinkering with Icinga Web can be, with a series of
+practical examples.
 
 ## Should I really? Why?
 
-Absolutely, why not? It's incredibly straightforward, and Icinga is 100% free, open source software with a great community. Icinga Web 2 is a stable, easy to understand and future-proof platform. So exactly what you want to base your own projects on.
+Absolutely, why not? It's incredibly straightforward, and Icinga is 100% free, open source software with a great
+community. Icinga Web is a stable, easy to understand and future-proof platform. So exactly what you want to base
+your own projects on.
 
 ## Only for monitoring?
 
-Not at all! Sure, monitoring is where Icinga Web originates and it's what it excels at. Since monitoring systems communicate with all sorts of systems in and outside of ones data center anyway, we found it to be the most natural thing to have the frontend behave in a similar fashion.
+Not at all! Sure, monitoring is where Icinga Web originates and it's what it excels at. Since monitoring systems
+communicate with all sorts of systems in and outside of ones data center anyway, we found it to be the most natural
+thing to have the frontend behave in a similar fashion.
 
-Icinga Web is a modular framework, which aims to make integration of third-party software as easy as possible. At the same time, true to the Open Source concept, we also want to make it easy for third parties to use Icinga logic, as conveniently as possible, in their own projects.
+Icinga Web is a modular framework, which aims to make integration of third-party software as easy as possible.
+At the same time, true to the Open Source concept, we also want to make it easy for third parties to use Icinga logic,
+as conveniently as possible, in their own projects.
 
-Whether it is about integrating third-party systems, the connection of a CMDB or the visualization of complex systems to supplement popular check-plugins - there is no limit to what you can do.
+Whether it is about integrating third-party systems, the connection of a CMDB or the visualization of complex systems
+to supplement popular check-plugins - there is no limit to what you can do.
 
 ## But I'm not a PHP/JavaScript/HTML5 hacker
 
-No problem. Of course, it doesn't hurt to know the basics of web development. This way or the other - Icinga Web allows you to write your own modules with our without in-depth PHP/HTML/CSS knowledge.
+No problem. Of course, it doesn't hurt to know the basics of web development. This way or the other - Icinga Web allows
+you to write your own modules with our without in-depth PHP/HTML/CSS knowledge.
 
 # Preparation
 
-As a little warm up for our notebooks, we'll start off with installing Icinga Web 2:
-
-    https://icinga.com/docs/icingaweb2/latest/doc/02-Installation/
+As a little warm up for our notebooks, we'll start off with [installing Icinga Web](https://icinga.com/docs/icinga-web/latest/doc/02-Installation/).
 
 Before we get that ball rolling, we will begin with a little introduction!
 
 ## Overview of the training
 
-* Overview of Icinga Web 2
+* Overview of Icinga Web
 * Creating your own module
   * Own CLI commands
   * Working with parameters
@@ -50,55 +58,59 @@ Before we get that ball rolling, we will begin with a little introduction!
 * Integration in third-party software
 * Concluding remarks
 
-## Icinga Web 2 architecture
+## Icinga Web Architecture
 
-During the development of Icinga Web 2, we built on three pillars:
+During the development of Icinga Web, we built on three pillars:
 
 * Simplicity
 * Speed
 * Reliability
 
-Although we have dedicated ourselves to the DevOps movement, our target audience with Icinga Web 2 is, first and foremost, the operator - the admin. Therefore, we try to have as few dependencies as possible on external components. We forgo using some of the newest and hippest features, as it prevents things from breaking on updating to the newest versions.
+Although we have dedicated ourselves to the DevOps movement, our target audience with Icinga Web is, first and foremost,
+the operator - the admin. Therefore, we try to have as few dependencies as possible on external components. We forgo
+using some of the newest and hippest features, as it prevents things from breaking on updating to the newest versions.
 
-The web interface is designed to be displayed on a dashboard for weeks and even months. We want to be able to rely on, that what we see, corresponds to the current state of our environment. If there are problems, they are visualized - even if they are within the application itself. When the problem is resolved, everything must continue as usual. And that without anyone having to plug in a keyboard and intervene manually.
+The web interface is designed to be displayed on a dashboard for weeks and even months. We want to be able to rely on,
+that what we see, corresponds to the current state of our environment. If there are problems, they are visualized - even
+if they are within the application itself. When the problem is resolved, everything must continue as usual. And that
+without anyone having to plug in a keyboard and intervene manually.
 
 ## Libraries used
 
+* icinga-php-library
+* icinga-php-thirdparty
 * Zend Framework 1.x
+* HTMLPurifier
 * jQuery 3
-* Smaller PHP libraries
-  * HTMLPurifier
-  * DOMPdf
-  * lessphp
-  * Parsedown
-* Smaller JS libraries
-  * jquery-...
 
-## Anatomy of an Icinga Web 2 module
+## Anatomy of an Icinga Web module
 
-Icinga Web 2 follows the paradigm 'convention before configuration'. A lesson learnt from our development of Icinga Web 1: one of the best tools for XML processing is on every disk: `/bin/rm`. Those who stick to a few simple conventions will save a lot of configuration work. Basically, in Icinga Web you only have to configure paths for special cases. It is usually enough to just save a file, in the right place.
+Icinga Web follows the paradigm 'convention before configuration'. A lesson learnt from our development of its
+predecessor: one of the best tools for XML processing is on every disk: `/bin/rm`. Those who stick to a few
+simple conventions will save a lot of configuration work. Basically, in Icinga Web you only have to configure
+paths for special cases. It is usually enough to just save a file, in the right place.
 
 An extensive, mature module could have approximately the following structure:
 
     .
     └── training                Basic directory of the module
         ├── application
-        │   ├── clicommands     CLI Commands
-        │   ├── controllers     Web Controller
-        │   ├── forms           Forms
-        │   ├── locale          Translations
-        │   └── views
-        │       ├── helpers     View Helper
-        │       └── scripts     View Scripts
+        │   ├── clicommands     CLI Commands
+        │   ├── controllers     Web Controller
+        │   ├── forms           Forms
+        │   ├── locale          Translations
+        │   └── views
+        │       ├── helpers     View Helper
+        │       └── scripts     View Scripts
         ├── configuration.php   Deploy menu, dashlets, permissions
         ├── doc                 Documentation
         ├── library
-        │   └── Training        Library Code, Module Namespace
+        │   └── Training        Library Code, Module Namespace
         ├── module.info         Module Metadata
         ├── public
-        │   ├── css             Own CSS Code
-        │   ├── img             Own Images
-        │   └── js              Own JavaScript
+        │   ├── css             Own CSS Code
+        │   ├── img             Own Images
+        │   └── js              Own JavaScript
         ├── run.php             Registration of hooks and more
         └── test
             └── php             PHP Unit Tests
@@ -107,47 +119,58 @@ We will work on our module, step by step, during this training and fill it with 
 
 ## Source Tree preparation
 
-To get started, we need Icinga Web 2. This can be checked out of the GIT Source Tree and used as it comes. If you then set `DocumentRoot` for a properly configured web server in the `public` directory, you can start already. For testing purposes it's even easier:
+To get started, we need Icinga Web. This can be checked out of the GIT Source Tree and used as it comes. If you then set
+`DocumentRoot` for a properly configured web server in the `public` directory, you can start already. For testing
+purposes it's even easier:
 
     cd /usr/local
     # If not done yet
-    git clone https://git.icinga.org/icingaweb2.git
+    git clone https://github.com/Icinga/icingaweb2.git
     ./icingaweb2/bin/icingacli web serve
 
-Finished. To use the installation wizard, a token is required, for security reasons. The wizard prompts you to enter a token, which is to be generated in the CLI. This is to ensure that, between installation and setup, there is never a time when an attacker could take over an environment. For packagers this point is completely optional, the same applies to those, who roll out Icinga Web with a CM tool like Puppet: if there is a configuration on the system, you will never see the Wizard.
+Finished. To use the installation wizard, a token is required, for security reasons. The wizard prompts you to enter a
+token, which is to be generated in the CLI. This is to ensure that, between installation and setup, there is never a
+time when an attacker could take over an environment. For packagers this point is completely optional, the same
+applies to those, who roll out Icinga Web with a CM tool like Puppet: if there is a configuration on the system,
+you will never see the Wizard.
 
-```
-  http://localhost
-```
+    http://localhost
 
 ## Manage multiple module paths
 
-Especially those who always work with the latest version, or want to switch between GIT branches safely, usually do not want to have to change files in their working copy. Therefore, it is recommended to use several module paths in parallel from the start. This can be done in the system settings or in the configuration under `/etc/icingaweb2/config.ini`:
+Especially those who always work with the latest version, or want to switch between GIT branches safely, usually do not
+want to have to change files in their working copy. Therefore, it is recommended to use several module paths in parallel
+from the start. This can be done in the system settings or in the configuration at `/etc/icingaweb2/config.ini`:
 
     [global]
-    module_path= "/usr/local/icingaweb-modules:/usr/local/icingaweb2/modules"
+    module_path = "/usr/local/icingaweb2-modules:/usr/local/icingaweb2/modules"
 
 ## Installation from packages
 
-The Icinga project builds up-to-date snapshots daily, for a wide range of operating systems, the package sources are available at [packages.icinga.org](https://packages.icinga.org/). The latest development can be checked out on [GitHub](https://github.com/Icinga/icingaweb2/).
+Icinga builds up-to-date snapshots daily, for a wide range of operating systems.
+The packages are available at [packages.icinga.com](https://packages.icinga.com/).
 
-But for our training we will use the git repository directly. And I personally also like doing that in production. Checksums for everything, changed files never go undetected, version changes happen in a fraction of a second - which package management can offer that? In addition, this procedure also demonstrates how straightforward Icinga Web 2 actually is. We did not have to change a single file in the source directory for installation. Automake, configure? What for?! The configuration is somewhere else, and WHERE it actually lies is communicated to the runtime environment.
+But for our training we will use the Git repository directly.
 
 # Create your own module
 
 ## Where should I start?
 
-Probably the most important question is usually what you want to do with his module. In our training we will first experiment with the given possibilities and then implement a small practical example.
+Probably the most important question is usually what you want to do with this module. In our training we will first
+experiment with the given possibilities and then implement a small practical example.
 
 ## What should I name my module?
 
-Once you know what the module is going to do, the hardest task is often choosing a good name. Ideally, it will tell you what the module actually does. But the name should not be too complicated, because we'll use it in PHP namespaces, directory names, and URLs.
+Once you know what the module is going to do, the hardest task is often choosing a good name. Ideally, it will tell you
+what the module actually does. But the name should not be too complicated, because we will use it in PHP namespaces,
+directory names, and URLs.
 
-Your own (company) name is often a good starting point. Our chosen module name for our first steps in training today will be `training`.
+Your own (company) name is often a good starting point. Our chosen module name for our first steps in training today
+will be `training`.
 
 ## Create and activate a new module
 
-    mkdir -p /usr/local/icingaweb-modules/training
+    mkdir -p /usr/local/icingaweb2-modules/training
     icingacli module list installed
     icingacli module enable training
 
@@ -155,7 +178,9 @@ And done!
 
 # Extending Icinga CLI
 
-The Icinga CLI was designed to provide most of the application logic in Icinga Web 2, and its modules, on the commandline. The project aims to make the creation of cronjobs, plugins, useful tools and smaller services as easy as possible.
+The Icinga CLI was designed to provide most of the application logic in Icinga Web, and its modules, on the
+commandline. This aims to make the creation of cronjobs, plugins, useful tools and smaller services as
+easy as possible.
 
 ## Own CLI Commands
 
@@ -163,15 +188,16 @@ Structure of the CLI commands:
 
     icingacli <module> <command> <action>
 
-Creating a CLI command is very easy. The directory `application/clicommands` will create a file, whose name corresponds to the desired command:
+Creating a CLI command is very easy. The directory `application/clicommands` will create a file, whose name
+corresponds to the desired command:
 
-    cd /usr/local/icingaweb-modules/training
+    cd /usr/local/icingaweb2-modules/training
     mkdir -p application/clicommands
     vim application/clicommands/HelloCommand.php
 
 Here, `Hello` corresponds to the desired command, with a capital letter. The ending `Command` must ALWAYS be set.
 
-Example command:
+**Example**
 
 ```php
 <?php
@@ -191,7 +217,7 @@ class HelloCommand extends Command
 * Each module gets a namespace, which equals the module name:
 
 ```
-Icinga\Module\<Modulname>
+Icinga\Module\<Modulename>
 ```
 
 * The first letter MUST be capitalized for each word
@@ -199,14 +225,22 @@ Icinga\Module\<Modulname>
 
 ## Inheritance
 
-All CLI commands MUST inherit the Command class in the namespace `Icinga\Cli`. This brings us a whole series of advantages, which we will discuss later. It is important that our class name corresponds to the name of the file. In our `HelloCommand.php` this would be class `HelloCommand`.
+All CLI commands MUST inherit the Command class in the namespace `Icinga\Cli`. This brings us a whole series of
+advantages, which we will discuss later. It is important that our class name corresponds to the name of the file.
+In our `HelloCommand.php` this would be the class `HelloCommand`.
 
 ## Command Actions
 
-Each command can provide multiple actions. Any new public method that ends with `Action` automatically becomes a CLI command action:
+Each command can provide multiple actions. Any new public method that ends with `Action` automatically becomes a CLI
+command action:
 
 ```php
 <?php
+
+namespace Icinga\Module\Training\Clicommands;
+
+use Icinga\Cli\Command;
+
 class HelloCommand extends Command
 {
     public function worldAction()
@@ -222,25 +256,27 @@ We create a CLI Command with an action, which is executed as follows, and genera
 
     icingacli training say hello
 
+    Hello World!
+
 ## Bash Autocompletion
 
-The Icinga CLI provides autocompletion for all modules, commands and actions. If you install Icinga Web 2 from packages, everything is already in the right place. For our test environment we will do this manually:
+The Icinga CLI provides autocompletion for all modules, commands and actions. If you install Icinga Web from packages,
+everything is already in the right place. For our test environment we will do this manually:
 
 ## Bash completion
 
     apt-get install bash-completion
-    cp etc/bash_completion.d/icingacli /etc/bash_completion.d/
+    cp /usr/local/icingaweb2/etc/bash_completion.d/icingacli /etc/bash_completion.d/
     . /etc/bash_completion
 
 If the input is ambiguous as in `icingacli mo`, then an appropriate help text will be displayed.
 
 ## Inline Documentation for CLI Commands
 
-Inline comments can help documenting commands and their actions. The comments' text is immediately available on the CLI, as a help text.
+Inline comments can help documenting commands and their actions. The comments' text is immediately available on the CLI,
+as a help text.
 
 ```php
-<?php
-
 /**
  * This is where we say hello
  *
@@ -275,17 +311,16 @@ Create and test documentation for a `something` action for the `say` command in 
 
 ## Command line parameters
 
-It's possible to completely check, use and control command line parameters ourselves. Due to using inheritance, the corresponding instance of `Icinga\Cli\Params` is already available in `$this->params`. The object has a `get()` method, to which we can give the desired parameter and optionally a default value. Without default value we get `null` if the corresponding parameter is not given.
+It's possible to completely check, use and control command line parameters ourselves. Due to using inheritance,
+the corresponding instance of `Icinga\Cli\Params` is already available in `$this->params`. The object has a `get()`
+method, to which we can give the desired parameter and optionally a default value. Without default value we get
+`null` if the corresponding parameter is not given.
 
 ```php
-<?php
-
-// ...
-
     /**
-     * Say hello as someone
+     * Say hello from somewhere
      *
-     * Usage: icingacli training hello from --from <someone>
+     * Usage: icingacli training hello from --from <somewhere>
      */
     public function fromAction()
     {
@@ -297,29 +332,25 @@ It's possible to completely check, use and control command line parameters ourse
 ### Example call
 
     icingacli training hello from --from Nuremberg
-    icingacli training hello from --from "Icinga Training"
     icingacli training hello from --help
     icingacli training hello from
 
 ## Standalone parameters
 
-It is not necessary to assign an identifier to each parameter. If you want, you can simply chain parameters. Most conveniently, these are accessible via the `shift()` method:
+It is not necessary to assign an identifier to each parameter. If you want, you can simply chain parameters.
+Most conveniently, these are accessible via the `shift()` method:
 
 ```php
-<?php
-
-// ...
-
-/**
- * Say hello as someone
- *
- * Usage: icingacli training hello from <someone>
- */
-public function fromAction()
-{
-    $from = $this->params->shift();
-    echo "Hello from $from!\n";
-}
+    /**
+     * Say hello from somewhere
+     *
+     * Usage: icingacli training hello from <somewhere>
+     */
+    public function fromAction()
+    {
+        $from = $this->params->shift();
+        echo "Hello from $from!\n";
+    }
 ```
 
 ### Example call
@@ -328,37 +359,41 @@ public function fromAction()
 
 ## Shifting is fun
 
-The `shift()` method behaves in the same way as you would expect from common programming languages. The first parameter of the list is returned and subsequently removed from the list. If you call `shift()` several times in succession, all existing standalone parameters are returned, until the list is empty. With `unshift()` you can undo such an action at any time.
+The `shift()` method behaves in the same way as you would expect from common programming languages. The first parameter
+of the list is returned and subsequently removed from the list. If you call `shift()` several times in succession, all
+existing standalone parameters are returned, until the list is empty. With `unshift()` you can undo such an action at
+any time.
 
-A special case is `shift()` with an identifier (key) as a parameter. So `shift('to')` would not only return the value of the `--to` parameter, but also remove it from the params object, regardless of its position. Again, it is possible to specify a default value:
+A special case is `shift()` with an identifier (key) as a parameter. So `shift('to')` would not only return the value
+of the `--to` parameter, but also remove it from the params object, regardless of its position. Again, it is possible
+to specify a default value:
 
 ```php
-<?php
-// ...
 $person = $this->params->shift('from', 'Nobody');
 ```
 
-Of course, this also works for standalone parameters. Since we have already used the first parameter of `shift()` with the optional identifier (key), but still want to set something for the second (default value), we simply set the identifier to null here:
+Of course, this also works for standalone parameters. Since we have already used the first parameter of `shift()` with
+the optional identifier (key), but still want to set something for the second (default value), we simply set the
+identifier to null here:
 
 ```php
-<?php
-// ...
-public function fromAction()
-{
-    $from = $this->params->shift(null, 'Nowhere');
-    echo "Hello from $from!\n";
-}
+    public function fromAction()
+    {
+        $from = $this->params->shift(null, 'Nowhere');
+        echo "Hello from $from!\n";
+    }
 ```
 
 ### Example call
 
     icingacli training hello from Nuremberg
-    icingacli training hello from
     icingacli training hello from --help
+    icingacli training hello from
 
 ## API documentation
 
-The Params class in the `Icinga\Cli` namespace documents other methods and their parameters. These are accessible in the API documentation for convenience. Those docs can be generated with phpDocumentor.
+The Params class in the `Icinga\Cli` namespace documents other methods and their parameters. These are accessible in
+the API documentation for convenience. A somewhat sophisticated IDE should be able to present it.
 
 ## Task 3
 
@@ -371,60 +406,91 @@ Extend the `say` command to support all of the following options:
 
 ## Exceptions
 
-Icinga Web 2 wants to promote clean PHP code. This includes, among other things, that all warnings generate errors. Errors are thrown for error handling. We can just try it:
+Icinga Web wants to promote clean PHP code. This includes, among other things, that all warnings generate errors.
+Errors are thrown for error handling. We can just try it:
 
 ```php
-<?php
-// ...
-use Icinga\Exception\ProgrammingError;
-// ...
-/**
- * This action will always fail
- */
-public function brokenAction()
-{
-    throw new ProgrammingError('No way');
-}
+    /**
+     * This will always fail
+     */
+    public function brokenAction()
+    {
+        $this->fail('No way!');
+    }
 ```
 
-### Call
+### Example Call
 
     icingacli training hello broken
     icingacli training hello broken --trace
 
 ## Exit codes
 
-As we can see, the CLI catches all exceptions, and outputs nice and human readable error messages, along with a colored indication of the error. The exit code in this case is always 1:
+As we can see, the CLI catches all exceptions, and outputs nice and human readable error messages,
+along with a colored indication of the error. The exit code in this case is always 1:
 
     echo $?
 
-This allows reliable evaluation of failed jobs. Only the exit code 0 stands for successful execution. Of course, everyone is free to use additional exit codes. This is done in PHP using `exit($code)`. Example:
+This allows reliable evaluation of failed jobs. Only the exit code 0 stands for successful execution.
+Of course, everyone is free to use additional exit codes. This is done in PHP using `exit($code)`:
 
 ```php
-<?php
 echo "CRITICAL\n";
 exit(2);
 ```
 
-Alternatively, Icinga Web provides the `fail()` function in the Command class. It is an abbreviation for a colored 'ERROR', a status output and `exit(1)`:
+## Log Messages
+
+You want colored output but throwing exceptions seems awkward? We have you covered here of course!
+Just log a message and it will be appropriately colored according to the level:
 
 ```php
-<?php
-$this->fail('An error occurred');
+use Icinga\Application\Logger;
+
+// ...
+
+    /**
+     * Log an error message
+     *
+     * Usage: icingacli training hello error <message>
+     */
+    public function errorAction()
+    {
+        Logger::error($this->params->shift(null, 'Lorem ipsum dolor sit amet'));
+    }
 ```
 
-## Colors?
+### Example Call
 
-As we have just seen, the Icinga CLI can create colored output. The 'screen' class in the `Icinga\Cli` namespace provides useful help functions. We can access it in our Command classes via `$this->screen`. This way the output can be colored:
+    icingacli training hello error
+    icingacli training hello error "The quick brown fox jumps over the lazy dog"
+
+## Task 4
+
+Extend the `say` command with an action for each of the log levels. (`error`, `warn` and `info`)
+Figure out why the `info` level does not produce any output.
+
+    icingacli training say error
+    icingacli training say warning
+    icingacli training say information
+
+## Custom Colors
+
+As we have just seen, the Icinga CLI can create colored output. The 'screen' class in the `Icinga\Cli` namespace
+provides useful help functions. We can access it in our Command classes via `$this->screen`. This way the output
+can be colored:
 
 ```php
-<?php
-echo $this->screen->colorize("Hello from $from!\n", 'lightblue');
+echo $this->screen->colorize("Hello from $from!", 'lightblue') . "\n";
 ```
 
-As an optional third parameter, the `colorize()` function can be given a background color. For the display of the colors ANSI escape codes are used. If Icinga CLI detects that the output is NOT in a terminal/TTY, the output will not contain any colors. This ensures that e.g. when redirecting the output to a file, no disturbing special characters appear.
+As an optional third parameter, the `colorize()` function can be given a background color. For the display of the
+colors ANSI escape codes are used. If Icinga CLI detects that the output is NOT in a terminal/TTY, the output will
+not contain any colors. This ensures that e.g. when redirecting the output to a file, no disturbing special characters
+appear.
 
-> To determine the terminal, PHP uses the POSIX extension. If this is not available, as a precaution the ANSI codes will not be used.
+> To determine the terminal, PHP uses the POSIX extension. If this is not available,
+> as a precaution the ANSI codes will not be used.
 
 Other useful features in the Screen class are:
 
@@ -436,11 +502,10 @@ Other useful features in the Screen class are:
 * `getRows()` and `getColumns()` where possible, to determine the usable space
 * `hasUtf8()` to query UTF8 support of the terminal
 
-Attention: Of course, it does not work to find out that someone is traveling in a UTF8 terminal with an ISO8859 Putty.
+## Task 5
 
-### Task
-
-Our `hello` action in the `say` command should output the text in color and centered both horizontally and vertically. We use `--watch` to flash the output alternately in at least two colors.
+Our `hello` action in the `say` command should output the text in color and centered both horizontally and vertically.
+We use `--watch` to flash the output alternately in at least two colors.
 
 # Your own module in the web frontend
 
