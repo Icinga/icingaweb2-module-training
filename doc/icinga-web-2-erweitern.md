@@ -514,21 +514,24 @@ ausgeben. Wir nutzen `--watch`, um die Ausgabe abwechselnd in mindestens zwei Fa
 
 # Das eigene Modul im Web-Frontend
 
-Icinga Web würde aber nicht __"Web"__ im Namen tragen, wenn seine wahren Qualitäten nicht auch dort zum Vorschein kämen. Wie wir gleich sehen werden gilt auch hier __Konvention vor Konfiguration__. Nach dem klassischen __MVC-Konzept__ gibt es natürlich Controller mit allen verfügbaren Aktionen und passende View-Skripte für die Ausgabe und Darstellung.
-
-Wir haben bewusst auf die Trennung Library/Model verzichtet, jede zusätzliche Schicht erhöht schließlich auch die Komplexität. Man könnte auch den Library-Code in vielen Modulen als "Model" betrachten, das sollen aber die Spezialisten nach uns klären. Wir wünschen uns jedenfalls möglichst viele schicke Module, idealerweise mit viel wiederverwendbarem Code, der dann auch anderen Modulen zu Gute kommt.
+Icinga Web würde aber nicht **Web** im Namen tragen, wenn seine wahren Qualitäten nicht auch dort zum Vorschein kämen.
+Wie wir gleich sehen werden gilt auch hier **Konvention vor Konfiguration**. Nach dem klassischen **MVC-Konzept** gibt
+es natürlich Controller mit allen verfügbaren Aktionen und passende View-Skripte für die Ausgabe und Darstellung.
 
 ## Ein erster Controller
 
-Jede `Action` in einem `Controller` wird automatisch zu einer `Route` in unserem Web-Frontend. Das sieht in etwa wie folgt aus:
+Jede `Action` in einem `Controller` wird automatisch zu einer `Route` in unserem Web-Frontend. Das sieht in etwa wie
+folgt aus:
 
-    http(s)://<host>/icingaweb/<modul>/<controller>/<action>
+    http(s)://<host>/icingaweb2/<modul>/<controller>/<action>
 
-Wenn wir für unser Training-Modul jetzt wieder unser "Hello World" erstellen möchten, erstellen wir erst mal das Basis-Verzeichnis für unsere Controller:
+Wenn wir für unser Training-Modul jetzt wieder unser "Hallo Welt" erstellen möchten, benötigen wir erst einmal das
+Basis-Verzeichnis für unsere Controller:
 
     mkdir -p training/application/controllers
 
-Anschließens legen wir unseren Controller an. Wie du schon richtig vermutest, muss dieser HelloController.php heißen und im Controllers-Namespace unseres Moduls liegen:
+Anschließend legen wir unseren Controller an. Wie du schon richtig vermutest, muss dieser `HelloController.php` heißen
+und im Controllers-Namespace unseres Moduls liegen:
 
 ```php
 <?php
@@ -545,43 +548,49 @@ class HelloController extends Controller
 }
 ```
 
-Wenn wir die Url ( training/hello/world ) jetzt aufrufen, erhalten wir eine Fehlermeldung:
-
+Wenn wir die Url `training/hello/world` jetzt aufrufen, erhalten wir eine Fehlermeldung:
 
     Server error: script 'hello/world.phtml' not found in path
-    (/usr/local/icingaweb-modules/training/application/views/scripts/)
+    (/usr/local/icingaweb2-modules/training/application/views/scripts/)
 
 Praktischerweise erzählt sie uns gleich schon, was wir als nächstes machen müssen.
 
 ## Ein View-Script anlegen
 
-Das entsprechende Basis-Verzeichnis fehlt noch. Da wir pro "action" ein View-Skript in einer dedizierten Datei anlegen, gibt es ein Verzeichnis pro "controller":
+Das entsprechende Basis-Verzeichnis fehlt noch. Da wir pro "action" ein View-Skript in einer dedizierten Datei anlegen,
+gibt es ein Verzeichnis pro "controller":
 
     mkdir -p training/application/views/scripts/hello
     
-Das View-Skript heißt dann einfach so wie die "action", also world.phtml:
+Das View-Skript heißt dann einfach so wie die "action", also `world.phtml`:
 
 ```php
-<h1>Hello World!</h1>
+<h1>Hallo Welt!</h1>
 ```
 
-Das war's auch schon, unsere neue URL ist jetzt verfügbar. Wir könnten jetzt den vollen Bereich für unser Modul nutzen und es entsprechend stylen. Wir können aber auch auf ein paar vordefinierte Elemente zurückgreifen. Zwei wichtige Klassen sind z.B. `controls` und `content` für Header-Elemente und den Seiteninhalt.
+Das war's auch schon, unsere neue URL ist jetzt verfügbar. Wir könnten jetzt den vollen Bereich für unser Modul nutzen
+und es entsprechend stylen. Wir können aber auch auf ein paar vordefinierte Elemente zurückgreifen. Zwei wichtige
+Klassen sind z.B. `controls` und `content` für Header-Elemente und den Seiteninhalt.
 
 ```php
 <div class="controls">
-<h1>Hello World!</h1>
+<h1>Hallo Welt!</h1>
 </div>
 
 <div class="content">
-Here you go...
+Etwas Inhalt...
 </div>
 ```
 
-Damit erhält man automatisch gleichmäßige Abstände zu den Seitenrändern und erzielt zudem den Effekt, dass beim Scrollen nach unten die `controls` stehen bleiben, während der `content` scrollt. Das werden wir natürlich erst dann bemerken, wenn wir unser Modul mit mehr Inhalt befüllen.
+Damit erhält man automatisch gleichmäßige Abstände zu den Seitenrändern und erzielt zudem den Effekt, dass beim Scrollen
+nach unten die `controls` stehen bleiben, während der `content` scrollt. Das werden wir natürlich erst dann bemerken,
+wenn wir unser Modul mit mehr Inhalt befüllen.
 
 ## Menü-Einträge
 
-Menü-Einträge in Icinga Web 2 können einerseits personalisiert und / oder vom Administrator vorgegeben werden (*). Unabhängig davon können sie aber von Modulen bereitgestellt werden. Hierbei handelt es sich um globale Konfiguration, die im Basis-Verzeichnis des eigenen Moduls in der `configuration.php` vorgenommen werden kann:
+Menü-Einträge in Icinga Web können einerseits personalisiert und / oder vom Administrator vorgegeben werden.
+Unabhängig davon können sie aber von Modulen bereitgestellt werden. Hierbei handelt es sich um globale Konfiguration,
+die im Basis-Verzeichnis des eigenen Moduls in der `configuration.php` vorgenommen werden kann:
 
 ```php
 <?php
@@ -598,20 +607,23 @@ Damit unser Menüpunkt besser aussieht, verpassen wir ihm bei dieser Gelegenheit
 ```php
 <?php
 
-$this->menuSection('Training')
-     ->setIcon('thumbs-up')
-     ->add('Hello World')
+$trainingMenu = $this->menuSection('Training')
+     ->setIcon('thumbs-up');
+
+$trainingMenu->add('Hello World')
      ->setUrl('training/hello/world');
 ```
 
-Um herauszufinden, welche Icons zur Verfügung stehen, aktivieren wir unter `System` / `Module` das `doc`-Modul. Anschließend finden wir die Icon-Liste unter `Dokumentation` / `Developer - Style`. Es handelt sich hierbei um Icons welche in eine Schriftart eingebettet wurden. Das hat den großen Vorteil, dass sehr viel weniger Requests über die Leitung müssen - die Icons sind einfach "immer da".
+Um herauszufinden, welche Icons zur Verfügung stehen, aktivieren wir unter `Configuration`/`Modules` das `doc`-Modul.
+Anschließend finden wir die Icon-Liste unter `Dokumentation` / `Developer - Style`. Es handelt sich hierbei um Icons
+welche in eine Schriftart eingebettet wurden. Dies erlaubt es sie ebenso wie Text mit CSS zu stylen.
 
-Alternativ lassen sich auf Wunsch aber immer noch klassische Icons (.png etc) benutzen. Das ist vor allem dann nützlich, wenn man für sein Modul ein spezielles Icon (z.B. ein Firmenlogo) nutzen möchte, welches sich schlecht in den offiziellen Icinga Icon-Font integrieren lässt:
+Alternativ lassen sich auf Wunsch aber immer noch klassische Icons (.png etc) benutzen. Das ist vor allem dann nützlich,
+wenn man für sein Modul ein spezielles Icon (z.B. ein Firmenlogo) nutzen möchte, welches nicht im offiziellen Icinga
+Icon-Font enthalten ist:
 
 ```php
-<?php
-
-$this->menuSection('Training')->setIcon('img/icons/success.png');
+$trainingMenu->setIcon('img/icons/success.png');
 ```
 
 ## Bilder hinzufügen
@@ -624,24 +636,27 @@ Wenn man in seinem Modul eigene Bilder nutzen möchte, stellt man diese einfach 
 
 Unsere Bilder sind sofort via Web erreichbar, das URL-Muster ist wie folgt:
 
-    http(s)://<icingaweb>/img/<module>/<bild>
+    http(s)://<icingaweb2>/img/<module>/<bild>
 
-Für unseren konkreten fall also `http://localhost/img/training/icinga_icon.png`. Das lässt sich so auch wunderbar gleich in unserem View-Skript nutzen. Anstatt einen img-Tag anzulegen (was natürlich möglich wäre) nutzen wir einen der vielen praktischen View-Helper:
+Für unseren konkreten fall also `http://localhost/img/training/icinga_icon.png`. Das lässt sich so auch wunderbar
+gleich in unserem View-Skript nutzen. Anstatt einen img-Tag anzulegen (was natürlich möglich wäre) nutzen wir einen
+der vielen praktischen View-Helper:
 
 ```php
-...
 <div class="content">
-<?= $this->img('img/training/icinga_icon.png', array('title' => 'Icinga Icon')) ?> Here you go...
+<?= $this->img('img/training/icinga_icon.png', array('title' => 'Icinga Icon')) ?> Etwas Inhalt...
 </div>
 ```
 
-## Aufgabe
+## Aufgabe 1
 
-Erstelle die URLs `training/hello/test` und `training/say/hello` und füge jeweils einen zusätzlichen Menüpunkt hinzu. Suche zudem für unser Training-Modul ein schöneres Icon aus dem Internet und richte es entsprechend ein.
+Erstelle die Routen `training/hello/test` und `training/say/hello` und füge jeweils einen zusätzlichen Menüpunkt hinzu.
+Suche zudem für unser Training-Modul ein schöneres Icon aus dem Internet und richte es entsprechend ein.
 
 ## Dashboards
 
-Bevor wir uns um ernsthafte Themen kümmern wollen wir unsere nützliche URL natürlich noch als Default-Dashboard bereitstellen. Auch das lässt sich in der `configuration.php` erledigen:
+Bevor wir uns um ernsthafte Themen kümmern wollen wir unsere Route noch als Default-Dashboard bereitstellen.
+Auch das lässt sich in der `configuration.php` erledigen:
 
 ```php
 <?php
@@ -650,56 +665,68 @@ $this->dashboard('Training')->add('Hello', 'training/hello/world');
 
 # Wir brauchen Daten!
 
-Nachdem unsere Web-Routen jetzt so wunderbar funktionieren, wollen wir natürlich etwas Sinnvolles damit anstellen. Eine Anwendung kann noch so schön sein, ohne nützliche Inhalte wird sie schnell langweilig. In einer MVC-Umgebung besorgen sich für gewöhnlich die `Controller` mit Hilfe der `Models` ihre Daten und befüttern damit die `View`.
+Nachdem unsere Web-Routen jetzt so wunderbar funktionieren, wollen wir natürlich etwas Sinnvolles damit anstellen.
+Eine Anwendung kann noch so schön sein, ohne nützliche Inhalte wird sie schnell langweilig. In einer MVC-Umgebung
+besorgen sich für gewöhnlich die `Controller` mit Hilfe der `Models` ihre Daten und befüttern damit die `View`.
 
 ## Unsere View mit Daten befüllen
 
-Der Controller stellt in `$this->view` einen Zugriff auf unsere View bereit. Auf diesem Wege lässt sie sich ganz bequem betanken:
+Der Controller stellt in `$this->view` einen Zugriff auf unsere View bereit. Auf diesem Wege lässt sie sich ganz
+bequem betanken:
 
 ```php
-<?php
-
-public function worldAction()
-{
-    $this->view->application = 'Icinga Web 2';
-    $this->view->moreData = array(
-        'Work'   => 'done',
-        'Result' => 'fantastic'
-    );
-}
+    public function worldAction()
+    {
+        $this->view->application = 'Icinga Web';
+        $this->view->moreData = [
+            'Work'   => 'erledigt',
+            'Result' => 'fantastisch'
+        ];
+    }
 ```
 
 Wir erweitern jetzt unser View-Skript und stellen die übermittelten Daten entsprechend dar:
 
 ```php
-<h3>Some data...</h3>
+<div class="controls">
+  <h3>Einige Daten...</h3>
+</div>
 
-This example is provided by <a href="http://www.icinga.com">Icinga
-</a> 
-and based on <?= $this->application ?>.
+<div class="content">
+  <p>Dieses Beispiel wird angeboten von <?= $this->qlink('Icinga', 'http://www.icinga.com') ?>
+    und basiert auf <?= $this->application ?>.</p>
 
-<table>
-<?php foreach ($this->moreData as $key => $val): ?>
-    <tr><th><?= $key ?></th><td><?= $val ?></td></tr>
-<?php endforeach ?>
-</table> 
+  <table>
+  <?php foreach ($this->moreData as $key => $val): ?>
+      <tr>
+          <th><?= $key ?></th>
+          <td><?= $val ?></td>
+      </tr>
+  <?php endforeach ?>
+  </table>
+</div>
 ```
 
-## Aufgabe
+## Aufgabe 2
 
 Unter `training/list/files` soll der Inhalt unseres Modul-Verzeichnisses in Tabellen-Form aufgelistet werden.
 * Hinweis: mit `$this->Module()->getBaseDir()` ermitteln wir unser Modul-Verzeichnis
-* Mehr zum öffnen von Verzeichnissen unter [http://de.php.net/opendir](http://de.php.net/opendir)
+* Mehr zum öffnen von Verzeichnissen in der [PHP Dokumentation](https://www.php.net/manual/de/function.opendir.php)
 
 # Aber bitte mit Stil!
 
-Das hat jetzt zwar nicht direkt mit unserem Thema zu tun, aber eins fällt auf: unsere Tabelle ist nicht gerade besonders hübsch. Zum Glück können wir in unser Modul ganz bequem auch CSS packen. Wir erstellen dazu ein passendes Verzeichnis, der Name dürfte naheliegend sein:
+Das hat jetzt zwar nicht direkt mit unserem Thema zu tun, aber eins fällt auf: unsere Tabelle ist nicht gerade hübsch.
+Zum Glück können wir in unser Modul ganz bequem auch CSS packen. Wir erstellen dazu ein passendes Verzeichnis, der Name
+dürfte naheliegend sein:
 
     mkdir public/css
 
-Unsere CSS-Anweisungen legen wir anschließend dort in der Datei `module.less` ab. Less ist eine CSS-Erweiterung um allerhand Funktionen, mehr dazu findet sich unter [der offiziellen Website](http://lesscss.org/functions/). Herkömmliches CSS ist hier aber auf jeden Fall gültig. Das Schöne an Icinga Web ist nun, dass ich mir keine Gedanken darüber machen muss, ob mein CSS andere Module oder Icinga Web selbst beeinflusst: das ist nicht der Fall.
+Unsere CSS/LESS-Anweisungen legen wir anschließend dort in der Datei `module.less` ab. LESS ist eine CSS-Erweiterung um
+allerhand Funktionen, mehr dazu findet sich auf [lesscss.org](https://lesscss.org/). Herkömmliches CSS ist hier aber auf
+jeden Fall gültig. Das Schöne an Icinga Web ist nun, dass man sich keine Gedanken darüber machen muss, ob das CSS andere
+Module oder Icinga Web selbst beeinflusst: das ist nicht der Fall.
 
-So können wir problemlos folgendes definieren, ohne fremde Tabellen "kaputt" zu machen:
+So können wir problemlos folgendes definieren, ohne fremde Tabellen *kaputt* zu machen:
 
     table {
         width: 100%;
@@ -712,7 +739,9 @@ So können wir problemlos folgendes definieren, ohne fremde Tabellen "kaputt" zu
         padding-right: 2em;
     }
 
-Wenn wir in den Entwickler-Tools unseres Browsers die Requests beobachten sehen wir, dass Icinga Web als einzige CSS-Datei css/icings.min.css lädt. Wir können auch css/icinga.css laden um uns bequem anschauen zu können, was Icinga Web aus unserem CSS-Code gemacht hat:
+Wenn wir in den Entwickler-Tools unseres Browsers die Requests beobachten sehen wir, dass Icinga Web als einzige
+CSS-Datei css/icinga.min.css lädt. Wir können auch css/icinga.css laden um uns bequem anschauen zu können, was
+Icinga Web aus unserem CSS-Code gemacht hat:
 
     .icinga-module.module-training table {
       width: 100%;
@@ -724,29 +753,44 @@ Wenn wir in den Entwickler-Tools unseres Browsers die Requests beobachten sehen 
       padding-right: 2em;
     }
 
-Wie wir sehen wird durch entsprechende Präfixe sichergestellt, dass unser CSS immer nur in jenen Containern gilt, in denen unser Modul seine Inhalte darstellt.
+Wie wir sehen wird durch entsprechende Präfixe sichergestellt, dass unser CSS immer nur in jenen Containern gilt,
+in denen unser Modul seine Inhalte darstellt.
 
 ## Nützliche CSS-Klassen
 
-Icinga Web 2 stellt eine Reihe von CSS-Klassen bereit, die uns die Arbeit einfacher machen. So ist `common-table` nützlich für die üblichen Listen in Tabellen, `name-value-table` Für Name/Wert-Paare bei denen links der Bezeichner als th und rechts der entsprechende Wert in einem td dargestellt wird. Hilfreich ist auch `table-row-selectable` - damit verändert sich das Verhalten der Tabelle. Die ganze Zeile wird hervorgehoben, wenn man mit der Maus darüber fährt. Wenn man irgendwo klickt, kommt der erste Link der Zeile zum Zug. In Kombination mit `common-table` sieht das Ganze ohne zusätzliche Arbeit dann auch schon gleich gut aus.
+Icinga Web 2 stellt eine Reihe von CSS-Klassen bereit, die uns die Arbeit einfacher machen. So ist `common-table`
+nützlich für die üblichen Listen in Tabellen, `name-value-table` für Name/Wert-Paare bei denen links der Bezeichner
+als th und rechts der entsprechende Wert in einem td dargestellt wird. Hilfreich ist auch `table-row-selectable`,
+damit verändert sich das Verhalten der Tabelle. In Kombination mit `common-table` wird die ganze Zeile hervorgehoben,
+wenn man mit der Maus darüber fährt. Und klickt man irgendwo, kommt der erste Link der Zeile zum Zug.
 
 # Echte Daten aufgeräumt
 
-Wie wir vorhin gesehen haben, wird so ein Modul erst mit echten Daten so richtig interessant. Was wir allerdings falsch gemacht haben ist, dass unser Controller die Daten selbst besorgt. Das ist unschön und würde uns spätestens wenn wir diese Daten auch auf der CLI nutzen möchten Probleme bereiten.
+Wie wir vorhin gesehen haben, wird so ein Modul erst mit echten Daten so richtig interessant. Was wir allerdings falsch
+gemacht haben ist, dass unser Controller die Daten selbst definiert. Das ist unschön und würde uns spätestens wenn wir
+diese Daten auch auf der CLI nutzen möchten Probleme bereiten.
 
 ## Unsere eigene Bibliothek
 
-Wir erstellen für unsere Bibliothek wieder ein neues Verzeichnis in unserem Module und folgen dabei dem Schema `library/<Modulname>`. In unserem Fall also:
+Wir erstellen für unsere Bibliothek wieder ein neues Verzeichnis in unserem Modul und folgen dabei dem Schema
+`library/<Modulname>`. In unserem Fall also:
 
     mkdir -p library/Training
 
-Für unser Modul nutzen wir wie schon gelernt den Namensraum `Icinga\Module\<Modulname>`. Alle darunter befindlichen Namespaces sucht Icinga Web 2 automatisch im eben erstellten Verzeichnis. Ausnahmen sind:  
+Für unser Modul nutzen wir wie schon gelernt den Namensraum `Icinga\Module\<Modulname>`. Der erste Buchstabe des
+Modulnamens muss groß geschrieben werden. (Im Verzeichnisnamen und im Namensraum) Alle darunter befindlichen
+Namespaces sucht Icinga Web automatisch im eben erstellten Verzeichnis. Ausnahmen sind:
 
-* `Clicommands`  
-* `Controllers`  
-* `Forms` 
+* `Clicommands`
+* `Controllers`
+* `Forms`
 
-Eine Biblithek, welche die in der Übung umgesetzte Aufgabe erledigt, könnte in `File.php` liegen und wie folgt aussehen:
+Jedes Unterverzeichnis von `library/Training` hat seinen eigenen Namensraum. Zum Beispiel, `library/Training/FileSystem`
+nutzt den Namensraum `Icinga\Module\Training\FileSystem` and `library/Training/FileSystem/FileInfo` nutzt
+`Icinga\Module\Training\FileSystem\FileInfo`.
+
+Eine Klasse, welche die zuletzt gestellte Aufgabe erledigt, könnte in `library/Training/Directory.php` liegen
+und wie folgt aussehen:
 
 ```php
 <?php
@@ -757,30 +801,33 @@ use DirectoryIterator;
 
 class Directory
 {
-    public static function listFiles($path)
+    public static function listFiles(string $path): array
     {
-        $result = array();
-
+        $result = [];
         foreach (new DirectoryIterator($path) as $file) {
-            if ($file->isDot()) continue;
+            if ($file->isDot()) {
+                continue;
+            }
 
-            $result[] = (object) array(
+            $result[] = (object) [
                 'name' => $file->getFilename(),
                 'path' => $file->getPath(),
                 'size' => $file->getSize(),
                 'type' => $file->getType()
-            );
+            ];
         }
+
         return $result;
     }
 }
 ```
 
-Unser Controller kann die Daten jetzt ganz bequem über unsere kleine Library abholen:
+Ein wichtiges Detail ist dass der Dateiname dem Namen der Klasse entspricht. Ist das nicht der Fall, kann die Klasse
+nicht geladen werden.
+
+Unser Controller kann die Daten jetzt ganz bequem über diese Klasse erhalten:
 
 ```php
-<?php
-
 // ...
 use Icinga\Module\Training\Directory;
 
@@ -793,13 +840,16 @@ class FileController extends Controller
 }
 ```
 
-## Aufgabe
+## Aufgabe 3
 
-Setze diese oder eine vergleichbare Library in dein Modul. Stelle ein View-Skript bereit, welches passend dazu die einzelnen Files auflisten kann. Wichtig dabei: benutze `$this->escape()` im View-Skript, um Daten deren Herkunft unsicher ist (z.B. Dateinamen) entsprechend zu escapen.
+Setze diese oder eine vergleichbare Klasse in dein Modul. Stelle ein View-Skript bereit, welches passend dazu die
+einzelnen Files auflisten kann. Wichtig dabei: benutze `$this->escape()` im View-Skript, um Daten deren Herkunft
+unsicher ist (z.B. Dateinamen) entsprechend zu escapen.
 
 # Parameter-Handling
 
-Bisher haben wir an unsere URLs noch keine Parameter mitgegeben. Auch das ist aber ganz einfach. Wie auf der Kommandozeile steht uns in Icinga Web ein simpler Zugriff auf Params zur Verfügung. Der Zugriff darauf erfolgt wie gewohnt:
+Bisher haben wir an unsere Routen noch keine Parameter mitgegeben. Auch das ist aber ganz einfach. Wie auf der
+Kommandozeile steht uns in Icinga Web ein simpler Zugriff auf Params zur Verfügung. Der Zugriff darauf erfolgt so:
 
 ```php
 <?php
@@ -808,25 +858,27 @@ $file = $this->params->get('file');
 
 Auch `shift()` und Konsorten sind hier natürlich wieder verfügbar.
 
-## Aufgabe
+## Aufgabe 4
 
-Unter `training/file/show?file=<filename>` sollen nach Belieben zusätzliche Infos zur gewünschten Datei angezeigt werden. Fleißige zeigen Eigentümer, Berechtigungen, letzte Änderung und Mime-Type an - es reicht aber auch völlig einfach nur erneut Dateiname und Größe "in schön" darzustellen.
+Unter `training/file/show?file=<filename>` sollen zusätzliche Infos zur gewünschten Datei angezeigt werden.
+Fleißige zeigen Eigentümer, Berechtigungen, letzte Änderung und Mime-Type an - es reicht aber auch völlig
+einfach nur erneut Dateiname und Größe "in schön" darzustellen.
 
 ## Weiterführende Links
 
-In unserer Dateiliste wollen wir jetzt von jeder Datei zum entsprechenden Detailbereich verlinken. Um keine Probleme mit dem Escaping von Parametern zu bekommen, nutzen wir einen neuen Helper, `qlink`:
+In unserer Dateiliste wollen wir jetzt von jeder Datei zum entsprechenden Detailbereich verlinken.
+Um keine Probleme mit dem Escaping von Parametern zu bekommen, nutzen wir den bekannten Helper `qlink`:
 
 ```php
 <td><?= $this->qlink(
-    $file->name,
-    'training/file/show',
-    array('file' => $file->name)
+    $file->name, // Anzuzeigender Text
+    'training/file/show', // Zu nutzende Route
+    ['file' => $file->name] // URL Parameter
 ) ?></td>
 ```
 
-Der erste Parameter ist hierbei der anzuzeigende Text, der zweite der zu erstellende Link und an dritter Stelle optionale Paramteter für diesen Link. Als vierten Parameter könnte man noch ein Array mit beliebigen weiteren HTML-Attributen mitgeben.
-
-Wenn wir jetzt in unserer Liste eine Datei anklicken, landen wir bei den entsprechenden Details dazu. Doch das geht auch bequemer. Probiere einfach mal, `data-base-target="_next"` in das content-div zu setzen:
+Wenn wir jetzt in unserer Liste eine Datei anklicken, landen wir bei den entsprechenden Details dazu.
+Doch das geht auch bequemer. Probiere einfach mal, `data-base-target="_next"` in das content-div zu setzen:
 
     <div class="content" data-base-target="_next">
 
@@ -834,127 +886,98 @@ Damit steuern wir erstmals ohne großen Aufwand das mehrspaltige Layout von Icin
 
 # URL-Handling
 
-Wer beobachtet hat wie der Browser sich verhält, der hat vielleicht bemerkt, dass hier nicht bei jedem Klick die Seite neu geladen wird. Icinga Web 2 fängt sämtliche Requests ab und versendet sie eigenständig per XHR-Request. Serverseitig wird dies erkannt, und als Antwort dann lediglich das jeweilige HTML-Schnipsel versendet. Das entspricht meist lediglich dem vom entsprechenden View-Script erstellten Output.
+Wer beobachtet hat wie der Browser sich verhält, der hat vielleicht bemerkt, dass hier nicht bei jedem Klick die Seite
+neu geladen wird. Icinga Web fängt sämtliche Requests ab und versendet sie eigenständig per XHR-Request. Serverseitig
+wird dies erkannt, und als Antwort dann lediglich das jeweilige HTML-Schnipsel versendet. Das entspricht meist
+lediglich dem vom entsprechenden View-Script erstellten Output. Dieser Typ Web-Applikation ist auch bekannt als
+*Single Page Application*. (SPA)
 
-Trotzdem bleibt jeder Link ein Link und lässt sich z.B. in einem neuen Tab öffnen. Hier wiederum wird erkannt, dass es sich um keinen XHR-Request handelt, das vollständige Layout wird ausgeliefert.
+Trotzdem bleibt jeder Link ein Link und lässt sich z.B. in einem neuen Tab öffnen. Hier wiederum wird erkannt,
+dass es sich um keinen XHR-Request handelt, das vollständige Layout wird ausgeliefert.
 
-Für gewöhnlich landen Links immer im selben Container, man kann das Verhalten mit `data-base-target` aber beeinflussen. Das am nächsten am angeklickten Element liegende Attribut gewinnt dabei. Will man `_next` für einen Teilbereich der Seite wieder aufheben, setzt man dort einfach `data-base-target="_self"`.
-
-# Daten-Handling leichtgemacht
-
-Icinga Web bietet noch einiges an netten Hilfmitteln. Eines wollen wir noch begutachten, die sogenannten DataSources. Wir binden die ArrayDatasource ein und erweitern unseren Library-Code um eine weitere Funktion:
-
-```php
-<?php
-
-use Icinga\Data\DataArray\ArrayDatasource;
-
-// ...
-
-    public static function selectFiles($path)
-    {
-        $ds = new ArrayDatasource(self::listFiles($path));
-        return $ds->select();
-    }
-```
-
-Anschließend ändern wir auch unseren Controller ganz leicht ab:
-
-
-```php
-<?php
-$query = Directory::selectFiles(
-    $this->Module()->getBaseDir()
-)->order('type')->order('name');
-
-$this->view->files = $query->fetchAll();
-```
-
-## Aufgabe 1
-Baue die Liste so um, dass man sie per Mausklick auf- oder absteigend sortieren kann.
-
-## Zusatzaufgabe
-
-```php
-<?php
-
-$editor = Widget::create('filterEditor')->handleRequest($this->getRequest());
-$query->applyFilter($editor->getFilter());
-```
+Für gewöhnlich landen Links immer im selben Container, man kann das Verhalten mit `data-base-target` aber beeinflussen.
+Das am nächsten am angeklickten Element liegende Attribut gewinnt dabei. Will man `_next` für einen Teilbereich der
+Seite wieder aufheben, setzt man dort einfach `data-base-target="_self"`.
 
 ## Autorefresh
 
-Als Monitoring-Oberfläche ist es selbstverständlich, dass Icinga Web eine zuverlässig und stabile Autorefresh-Funktion mitliefert. Diese lässt sich bequem aus den Controllern steuern:
+Als Monitoring-Oberfläche ist es selbstverständlich, dass Icinga Web eine zuverlässig und stabile Autorefresh-Funktion
+mitliefert. Diese lässt sich bequem aus den Controllern steuern:
 
 ```php
-<?php
+    public function listAction()
+    {
+        // ...
 
-$this->setAutorefreshInterval(10);
+        $this->setAutorefreshInterval(10);
+    }
 ```
 
-## Aufgabe 2
+## Aufgabe 5
 
-Unsere Datei-Liste soll automatisch aktualisiert werden, die Detail-Infos ebenfalls. Zeige die Änderungszeit einer Datei an (`$file->getMtime()`) und benutze den Helper `timeSince` um die Zeit darzustellen. Ändere eine Datei auf der Festplatte und beobachte, was passiert. Wie kann man das erklären?
+Unsere Datei-Liste soll automatisch aktualisiert werden, die Detail-Infos ebenfalls. Zeige die Änderungszeit einer
+Datei an (`$file->getMtime()`) und benutze den Helper `timeSince` um die Zeit darzustellen. Ändere eine Datei auf
+der Festplatte und beobachte, was passiert. Wie kann man das erklären?
 
 # Konfiguration
 
 Wer ein Modul entwickelt möchte dieses vermutlich auch konfigurieren können. Konfiguration für ein Module legt man unter `/etc/icingaweb/modules/<modulename>` ab. Was sich dort in einer `config.ini` findet ist im Controller wie folgt zugänglich:
 
 ```php
-<?php
-$config = $this->Config();
+    public function configAction()
+    {
+        $config = $this->Config();
 
-/*
-[abschnitt]
-eintrag = "wert"
-*/
-echo $config->get('abschnitt', 'eintrag');
+        /*
+        [abschnitt]
+        eintrag = "wert"
+        */
+        echo $config->get('abschnitt', 'eintrag');
 
-// Ergibt "standardwert", da "keineintrag" nicht existiert:
-echo $config->get('abschnitt', 'keineintrag', 'standardwert');
+        // Ergibt "standardwert", da "keineintrag" nicht existiert:
+        echo $config->get('abschnitt', 'keineintrag', 'standardwert');
 
-// Liest aus der special.ini statt aus der config.ini:
-$config = $this->Config('special');
+        // Liest aus der special.ini statt aus der config.ini:
+        $special = $this->Config('special');
+    }
 ```
 
-## Aufgabe
-Der Basis-Pfad für den List-Controller unseres Training-Moduls soll konfigurierbar sein. Ist kein Pfad konfiguriert, benutzen wir weiterhin unser Modulverzeichnis.
+## Aufgabe 6
+
+Der Basis-Pfad für den List-Controller unseres Training-Moduls soll konfigurierbar sein.
+Ist kein Pfad konfiguriert, benutzen wir weiterhin unser Modulverzeichnis.
 
 # Übersetzungen
-Für eine detaillierte Beschreibung der Übersetzungsmöglichkeiten öffen wir die Dokumentation zum `translation` Modul. Hier kurz die einzelnen Schritte:
 
-```php
-<h1><?= $this->translate('My files') ?></h1>
-```
-
-    apt-get install gettext poedit
-    icingacli module enable translation
-    icingacli translation refresh module training de_DE
-    # Übersetzen mit Poedit
-    icingacli translation compile module training de_DE
-
+Für eine detaillierte Beschreibung der Übersetzungsmöglichkeiten öffnen wir die
+[Dokumentation zum `translation` Modul](https://icinga.com/docs/icinga-web/latest/modules/translation/doc/03-Translation/#module-translation-introduction).
 
 # Icinga Web Logik in Drittsoftware nutzen?
 
-Wir wollen mit Icinga Web 2 nicht nur das Einbinden von Drittsoftware möglichst einfach gestalten. Wir wollen auch, dass es anderen einfach fällt, Icinga Web Logik in deren Software zu nutzen.
+Wir wollen mit Icinga Web nicht nur das Einbinden von Drittsoftware möglichst einfach gestalten.
+Wir wollen auch, dass es anderen einfach fällt, Icinga Web Logik in deren Software zu nutzen.
 
 Dazu reicht im Grunde folgender Aufruf in einer beliebigen PHP-Datei:
 
 ```php
 <?php
 
-require_once 'Icinga/Application/EmbeddedWeb.php';
-Icinga\Application\EmbeddedWeb::start();
+require_once '/usr/local/icingaweb2/library/Icinga/Application/EmbeddedWeb.php';
+Icinga\Application\EmbeddedWeb::start('/usr/local/icingaweb2');
 ```
 
-Fertig! Keine Authentifizierung, kein Bootstrapping der vollen Web-Oberfläche. Aber alles was an Library-Code vorhanden ist, kann genutzt werden.
+Fertig! Keine Authentifizierung, kein Bootstrapping der vollen Web-Oberfläche.
+Aber der komplette Library-Code kann genutzt werden.
 
-## Aufgabe
-Erstelle eine zusätzliche PHP-Datei, welche Icinga Web 2 einbettet. Benutze anschließend die Bibliothek zum Verzeichnis-Handling aus deinem Trainingsmodul.
+## Aufgabe 7
+
+Erstelle eine zusätzliche PHP-Datei, welche Icinga Web einbettet.
+Benutze anschließend die Klasse zum Verzeichnis-Handling aus deinem Trainingsmodul.
 
 # Abschließend
 
-Hiermit hast du es geschafft, die Grundlagen der Modulentwicklung für Icinga Web 2 hast du nun gelernt - für alles Weitere gilt es: ausprobieren! Für weitere Hilfestellungen gibt es auf [Icinga Exchange](https://exchange.icinga.com/) und auf unseren [Icinga Events](https://icinga.com/events/) mit Sicherheit allerhand Inspirationen für dich!
+Hiermit hast du es geschafft, die Grundlagen der Modulentwicklung für Icinga Web hast du nun gelernt - für alles
+Weitere gilt es: ausprobieren! Weitere Inspirationen gibt es auf [Icinga Exchange](https://exchange.icinga.com/)
+und unseren [Icinga Events](https://icinga.com/community/events/).
 
-Viel Freude und fröhliches Hacken mit Icinga Web 2!!!
-
+Viel Freude und fröhliches Hacken mit Icinga Web!!1
