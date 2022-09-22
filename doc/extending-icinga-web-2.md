@@ -30,34 +30,6 @@ to supplement popular check-plugins - there is no limit to what you can do.
 No problem. Of course, it doesn't hurt to know the basics of web development. This way or the other - Icinga Web allows
 you to write your own modules with our without in-depth PHP/HTML/CSS knowledge.
 
-# Preparation
-
-As a little warm up for our notebooks, we'll start off with [installing Icinga Web](https://icinga.com/docs/icinga-web/latest/doc/02-Installation/).
-
-Before we get that ball rolling, we will begin with a little introduction!
-
-## Overview of the training
-
-* Overview of Icinga Web
-* Creating your own module
-  * Own CLI commands
-  * Working with parameters
-  * Colors and other tricks
-* Extending the web frontend
-  * Own images
-  * Own stylesheets
-  * Extending the menu
-  * Providing dashboards
-* Working with data
-  * Providing data
-  * Bundle code in libraries
-  * Working with parameters
-  * Tips for work routines
-* Configuration
-* Translations
-* Integration in third-party software
-* Concluding remarks
-
 ## Icinga Web Architecture
 
 During the development of Icinga Web, we built on three pillars:
@@ -116,6 +88,29 @@ An extensive, mature module could have approximately the following structure:
             └── php             PHP Unit Tests
 
 We will work on our module, step by step, during this training and fill it with life.
+
+# Overview of the training
+
+* [Preparation](#preparation)
+* [Create your own module](#create-your-own-module)
+  * CLI commands
+  * Working with parameters
+  * Colors and other tricks
+* [Your own module in the web frontend](#your-own-module-in-the-web-frontend)
+  * Routes and views
+  * Icons and images
+  * Using stylesheets
+  * Extending the menu
+  * Providing dashboards
+  * Implementing a library
+* [Configuration](#configuration)
+* [Translations](#translations)
+* [Integration in third-party software](#using-icinga-web-logic-in-third-party-software)
+* Concluding remarks
+
+# Preparation
+
+As a little warm up for our notebooks, we'll start off with [installing Icinga Web](https://icinga.com/docs/icinga-web/latest/doc/02-Installation/).
 
 ## Source Tree preparation
 
@@ -229,7 +224,7 @@ All CLI commands MUST inherit the Command class in the namespace `Icinga\Cli`. T
 advantages, which we will discuss later. It is important that our class name corresponds to the name of the file.
 In our `HelloCommand.php` this would be the class `HelloCommand`.
 
-## Command Actions
+### Command Actions
 
 Each command can provide multiple actions. Any new public method that ends with `Action` automatically becomes a CLI
 command action:
@@ -262,8 +257,6 @@ We create a CLI Command with an action, which is executed as follows, and genera
 
 The Icinga CLI provides autocompletion for all modules, commands and actions. If you install Icinga Web from packages,
 everything is already in the right place. For our test environment we will do this manually:
-
-## Bash completion
 
     apt-get install bash-completion
     cp /usr/local/icingaweb2/etc/bash_completion.d/icingacli /etc/bash_completion.d/
@@ -329,13 +322,13 @@ method, to which we can give the desired parameter and optionally a default valu
     }
 ```
 
-### Example call
+**Example Calls**
 
     icingacli training hello from --from Nuremberg
     icingacli training hello from --help
     icingacli training hello from
 
-## Standalone parameters
+### Standalone parameters
 
 It is not necessary to assign an identifier to each parameter. If you want, you can simply chain parameters.
 Most conveniently, these are accessible via the `shift()` method:
@@ -353,11 +346,11 @@ Most conveniently, these are accessible via the `shift()` method:
     }
 ```
 
-### Example call
+**Example Calls**
 
     icingacli training hello from Nuremberg
 
-## Shifting is fun
+### Shifting is fun
 
 The `shift()` method behaves in the same way as you would expect from common programming languages. The first parameter
 of the list is returned and subsequently removed from the list. If you call `shift()` several times in succession, all
@@ -384,7 +377,7 @@ identifier to null here:
     }
 ```
 
-### Example call
+**Example Calls**
 
     icingacli training hello from Nuremberg
     icingacli training hello from --help
@@ -419,7 +412,7 @@ Errors are thrown for error handling. We can just try it:
     }
 ```
 
-### Example Call
+**Example Calls**
 
     icingacli training hello broken
     icingacli training hello broken --trace
@@ -460,7 +453,7 @@ use Icinga\Application\Logger;
     }
 ```
 
-### Example Call
+**Example Calls**
 
     icingacli training hello error
     icingacli training hello error "The quick brown fox jumps over the lazy dog"

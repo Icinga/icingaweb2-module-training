@@ -30,34 +30,6 @@ Systemen als Ergänzung zu herkömmlichen Check-Plugins geht - der Fantasie sind
 Kein Problem. Freilich schadet es nicht, über fundierte Kenntnisse der Webentwicklung zu verfügen. Icinga Web erlaubt
 es aber, auch ohne tiefgehende PHP/HTML/CSS-Kenntnisse eigene Module schreiben zu können.
 
-# Vorbereitung
-
-Zum warm werden geben wir unseren Notebooks schon mal eine kleine Aufgabe und [installieren Icinga Web](https://icinga.com/docs/icinga-web/latest/doc/02-Installation/).
-
-Bevor es dann so richtig los geht widmen wir uns erstmal der Einführung!
-
-## Aufbau des Trainings
-
-* Über Icinga Web
-* Erstellung eines eigenen Moduls
-  * Eigene CLI-Commands
-  * Arbeiten mit Parametern
-  * Farben und andere Gimmicks
-* Erweiterung des Web-Frontends
-  * Eigene Bilder
-  * Eigene Stylesheets
-  * Erweiterung des Menüs
-  * Bereitstellung von Dashboards
-* Das Arbeiten mit Daten
-  * Bereitstellen von Daten
-  * Code in Bibliotheken packen
-  * Arbeiten mit Parametern
-  * Tricks zum bequemen Arbeiten
-* Konfiguration
-* Übersetzungen
-* Integration in Dritt-Software
-* Abschließende Anmerkungen
-
 ## Icinga Web Architektur
 
 Bei der Entwicklung von Icinga Web wurde auf drei Schwerpunkte Wert gelegt:
@@ -118,6 +90,29 @@ Ein umfangreiches, erwachsenes Modul könnte in etwa folgende Struktur aufweisen
             └── php             PHP Unit-Tests
 
 Wir werden uns eine solche im Rahmen dieses Trainings Schritt für Schritt erarbeiten und mit Leben befüllen.
+
+# Aufbau des Trainings
+
+* [Vorbereitung](#vorbereitung)
+* [Ein eigenes Modul erstellen](#ein-eigenes-modul-erstellen)
+  * CLI-Commands
+  * Arbeiten mit Parametern
+  * Farben und andere Gimmicks
+* [Das eigene Modul im Web-Frontend](#das-eigene-modul-im-web-frontend)
+  * Routen und Ansichten
+  * Icons und Bilder
+  * Stylesheets nutzen
+  * Erweiterung des Menüs
+  * Bereitstellung von Dashboards
+  * Anlegen einer Bibliothek
+* [Konfiguration](#konfiguration)
+* [Übersetzungen](#übersetzungen)
+* [Icinga Web Logik in Drittsoftware nutzen](#icinga-web-logik-in-drittsoftware-nutzen)
+* Abschließende Anmerkungen
+
+# Vorbereitung
+
+Zum warm werden geben wir unseren Notebooks schon mal eine kleine Aufgabe und [installieren Icinga Web](https://icinga.com/docs/icinga-web/latest/doc/02-Installation/).
 
 ## Source Tree vorbereiten
 
@@ -234,7 +229,7 @@ Sämtliche CLI-Commands MÜSSEN die Command-Klasse im Namensraum `Icinga\Cli` be
 von Vorteilen, auf die wir später noch eingehen werden. Wichtig ist, dass unser Klassenname dem Namen der Datei
 entspricht. In unsererer `HelloCommand.php` wäre dies also die Klasse `HelloCommand`.
 
-## Command-Actions
+### Command-Actions
 
 Jedes Command kann mehrere Actions bereitstellen. Jede neue öffentliche Methode, welche mit `Action` endet wird hierbei
 automatisch zu einer CLI command action:
@@ -267,8 +262,6 @@ Wir erstellen ein CLI Command mit einer Action, welche folgendermaßen bedient w
 
 Die Icinga CLI stellt Autovervollständigung für alle Module, Kommandos und Aktionen bereit. Installiert man Icinga Web
 per Paket ist alles schon an der richtigen Stelle, für unsere Test-Umgebung legen wir manuell Hand an:
-
-## Bash completion
 
     apt-get install bash-completion
     cp /usr/local/icingaweb2/etc/bash_completion.d/icingacli /etc/bash_completion.d/
@@ -334,7 +327,7 @@ Default-Wert erhalten wir `null`, falls der entsprechende Parameter nicht mitgeg
     }
 ```
 
-### Beispiel-Aufruf
+**Beispiel Aufrufe**
 
     icingacli training hello from --from Nürnberg
     icingacli training hello from --help
@@ -358,7 +351,7 @@ Parameter aneinanderreihen. Am bequemsten sind diese über die `shift()`-Methode
     }
 ```
 
-### Beispiel-Aufruf
+**Beispiel Aufrufe**
 
     icingacli training hello from Nürnberg
 
@@ -389,7 +382,7 @@ den Bezeichner hier einfach auf null:
     }
 ```
 
-### Beispiel-Aufruf
+**Beispiel Aufrufe**
 
     icingacli training hello from Nürnberg
     icingacli training hello from --help
@@ -424,7 +417,7 @@ Zum Error-Handling werden Fehler geworfen. Wir können das einfach ausprobieren:
     }
 ```
 
-### Beispiel-Aufruf
+**Beispiel Aufrufe**
 
     icingacli training hello broken
     icingacli training hello broken --trace
@@ -465,7 +458,7 @@ use Icinga\Application\Logger;
     }
 ```
 
-### Beispiel-Aufruf
+**Beispiel Aufrufe**
 
     icingacli training hello error
     icingacli training hello error "The quick brown fox jumps over the lazy dog"
