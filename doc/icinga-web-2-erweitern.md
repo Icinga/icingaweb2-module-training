@@ -161,7 +161,8 @@ werden wir erst mit den gegebenen Möglichkeiten experimentieren und anschließe
 
 Sobald man weiß, was das Modul in etwa machen soll ist die schwierigste Aufgabe häufig die Wahl eines guten Namens.
 Im Idealfall geht daraus schon hervor, was das Modul eigentlich macht. Zu kompliziert soll der Name aber auch nicht
-sein, schließlich werden wir ihn in PHP-Namespaces, Verzeichnisnamen und URLs verwenden.
+sein, schließlich werden wir ihn in PHP-Namespaces, Verzeichnisnamen und URLs verwenden. Er sollte nur aus
+Alphanumerischen Zeichen bestehen und darf nicht mit einer Nummer beginnen.
 
 Für erste eigene Gehversuche bietet sich häufig der eigene (Unternehmens-)Name an. Unser favorisierter Modulename für
 unsere ersten Gehversuche in der Schulung heute ist `training`.

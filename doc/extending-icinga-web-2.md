@@ -158,7 +158,7 @@ experiment with the given possibilities and then implement a small practical exa
 
 Once you know what the module is going to do, the hardest task is often choosing a good name. Ideally, it will tell you
 what the module actually does. But the name should not be too complicated, because we will use it in PHP namespaces,
-directory names, and URLs.
+directory names, and URLs. It should consist only of alphanumeric characters and must not start with a number.
 
 Your own (company) name is often a good starting point. Our chosen module name for our first steps in training today
 will be `training`.
