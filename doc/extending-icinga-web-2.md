@@ -111,7 +111,7 @@ To get started, we need Icinga Web 2. This can be checked out of the GIT Source 
 
     cd /usr/local
     # If not done yet
-    git clone https://git.icinga.org/icingaweb2.git
+    git clone https://github.com/Icinga/icingaweb2.git
     ./icingaweb2/bin/icingacli web serve
 
 Finished. To use the installation wizard, a token is required, for security reasons. The wizard prompts you to enter a token, which is to be generated in the CLI. This is to ensure that, between installation and setup, there is never a time when an attacker could take over an environment. For packagers this point is completely optional, the same applies to those, who roll out Icinga Web with a CM tool like Puppet: if there is a configuration on the system, you will never see the Wizard.
