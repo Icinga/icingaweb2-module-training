@@ -1,0 +1,7 @@
+application/
+doc/
+public/
+test/
+
+run.php
+configuration.php
