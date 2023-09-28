@@ -1,7 +1,13 @@
+# Editors
+*~
+.idea/
+\#*
+.\#*
+
+# Module
 application/
-doc/
 public/
 test/
-
+library/
 run.php
 configuration.php
