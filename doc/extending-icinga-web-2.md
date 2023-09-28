@@ -617,8 +617,7 @@ $trainingMenu->setIcon('img/icons/success.png');
 If you would like to use your own images in your module, you can simply provide them under `public/img`:
 
     mkdir -p public/img
-    wget https://icinga.com/wp-content/uploads/2016/02/icinga_icon.png
-    mv icinga_icon.png public/img/
+    wget -O public/img/icinga_icon.png https://icinga.com/wp-content/uploads/2016/02/icinga_icon.png
 
 Our images are immediately accessible in the web interface, the URL pattern is as follows:
 
@@ -630,7 +629,17 @@ view helpers:
 
 ```php
 <div class="content">
-<?= $this->img('img/training/icinga_icon.png', array('title' => 'Icinga Icon')) ?> Some Content...
+<?= $this->img('img/training/icinga_icon.png', array(), array('title' => 'Icinga Icon')) ?>
+
+Some Content...
+</div>
+```
+
+Further HTML attributes can be added to the array:
+
+```php
+<div class="content">
+<?= $this->img('img/training/icinga_icon.png', array(), array('title' => 'Icinga Icon', 'style' => 'background: white;')) ?>
 </div>
 ```
 
