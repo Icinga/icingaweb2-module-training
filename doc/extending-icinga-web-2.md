@@ -515,7 +515,7 @@ Every `action` in a `controller` automatically becomes a `route` in our web fron
 If we want to create another 'Hello World' for our training module, we need to create the basic directory for our
 controllers first:
 
-    mkdir -p training/application/controllers
+    mkdir -p application/controllers
 
 Afterwards we add our controller. As you will probably have guessed already, it must be called `HelloController.php`,
 and be in the Controller namespace of our module:
@@ -547,10 +547,10 @@ Conveniently, it immediately tells us what we need to do next.
 The corresponding base directory is still missing. Since we create a view script in a dedicated file per 'action',
 there is one directory per 'controller':
 
-    mkdir -p training/application/views/scripts/hello
+    mkdir -p application/views/scripts/hello
 
 The view script is then just like the 'action', so `world.phtml`:
-    
+
 ```php
 <h1>Hello World!</h1>
 ```
