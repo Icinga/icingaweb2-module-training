@@ -1,75 +1,71 @@
 # Digging Deeper – The Icinga PHP Library
 
 The basic tutorial already covered how to create routes and views. You also learned how to create your own library
-parts. This tutorial will go deeper and shows you how to achieve the same (and more) but by using what the Icinga
-PHP Library (IPL) has to offer. Accessing a database is also part of it, of course.
+parts.
+
+This tutorial will go deeper and shows you how to achieve the same (and more) but by using what the Icinga
+PHP Library (IPL) has to offer.
+
+As well as working with databases.
 
 ## The Library's Parts
 
 It consists of the following separate libraries:
 
 * [ipl-html](https://github.com/Icinga/ipl-html)
+  * This is a HTML abstraction layer. Essentially, it is the successor of what you already learned about view scripts. It lets you write HTML in an object oriented way
 * [ipl-i18n](https://github.com/Icinga/ipl-i18n)
+  * This bundles everything related to internationalisation
 * [ipl-orm](https://github.com/Icinga/ipl-orm)
+  * Icinga's object-relational mapper that makes working with your databases a breeze
 * [ipl-sql](https://github.com/Icinga/ipl-sql)
+  * A SQL abstraction layer. Builds on top of PHP's `PDO` and provides an object oriented way to access a database
 * [ipl-stdlib](https://github.com/Icinga/ipl-stdlib)
+  * Just a collection of various useful functions, classes and utilities
 * [ipl-validator](https://github.com/Icinga/ipl-validator)
+  * Provides common validators (email addresses, date-and-time, X.509 certificates, etc.)
 * [ipl-web](https://github.com/Icinga/ipl-web)
+  * It combines all other parts to provide useful widgets and base implementations for such. If you want to extend your views with controls such as the mighty `Search Bar` or maybe a `SortControl` and a `LimitControl`, this provides them.
 
-### ipl-html
+## Prerequisites
 
-This is a HTML abstraction layer. Essentially, it is the successor of what you already learned about view scripts.
-It lets you write HTML in an object oriented way.
-
-### ipl-i18n
-
-This bundles everything related to internationalisation.
-
-### ipl-orm
-
-Icinga's object relational mapper.
-
-### ipl-sql
-
-A SQL abstraction layer. Builds on top of PHP's `PDO` and provides an object oriented way to access a database.
-
-### ipl-stdlib
-
-Just a collection of useful functions, classes and well... utilities.
-
-### ipl-validator
-
-The home of some validators, as the name implies. Not more, not less.
-
-### ipl-web
-
-The primary part of the bunch. It combines all other parts to provide useful widgets and base implementations for
-such. If you want to extend your views with controls such as the mighty `Search Bar` or maybe a `SortControl` and
-a `LimitControl`, this provides them.
-
-## How To Use Them
-
-That's quite easy. You need at least Icinga Web in version 2.9 and then you're good to go and can
+You need at least Icinga Web in version 2.9 and then you're good to go and can
 [install](https://github.com/Icinga/icinga-php-library) them.
 
 # Starting Off
 
-We need to prepare a database first. For ease of use, this tutorial uses a sqlite database. But you may also use a
-e.g MySQL backend – you'd have to adjust some of the connection examples then, though.
+We need to prepare a database first. For ease of use, this tutorial uses a sqlite database.
+
+But you may also use a e.g MySQL backend – you'd have to adjust some of the connection examples then, though.
 
 ## Database Setup
 
 `sqlite3` is the commandline tool for sqlite, let's install it:
 
-    apt install sqlite3
+```bash
+apt install sqlite3
+```
 
 Now import the database schema that's shipped with this tutorial [here](res/asset-db.sql):
 
-    sqlite3 /etc/icingaweb2/modules/training/assets.sqlite < asset-db.sql
+```bash
+mkdir -p /etc/icingaweb2/modules/training/
+cd /usr/share/icingaweb2/modules/training/
+
+sqlite3 /etc/icingaweb2/modules/training/assets.sqlite < doc/res/asset-db.sql
+```
+
+This databse now contains some users and several assets that belong to these users.
 
 ## Create a New Controller
 
-It is recommended to use a new controller. Create the class `AssetsController` in the usual place:
+It is recommended to use a new controller. Thus we create the class `AssetsController` in the usual place:
+
+```bash
+vim application/controllers/AssetsController.php
+```
+
+This controller will connect to the database:
 
 ```php
 <?php
@@ -108,13 +104,16 @@ class AssetsController extends CompatController
 
 Some notes regarding the example above:
 
-* This controller extends a new class, the `CompatController`. It is provided by ipl-web and acts as a compatibility
-  layer between Icinga Web and the ipl
-* It also uses a trait, `SearchControls`. This is also provided by ipl-web and implements initialization methods
+* This controller extends a new class, the `CompatController`. It is provided by `ipl-web` and acts as a compatibility
+  layer between Icinga Web and the IPL
+* It also uses a trait, `SearchControls`. This is also provided by `ipl-web` and implements initialization methods
   for the `SearchBar` and the `SearchEditor`, widgets we will use later on
-* `getDb()` returns the database connection to be used in various places. If you are not using sqlite, update this
-  according to your backend  
-  The following additional configuration options might be useful to you:
+
+`getDb()` returns the database connection to be used in various places. If you are not using sqlite, update this
+according to your backend
+
+The following additional configuration options might be useful to you:
+
   * `host`
   * `port`
   * `username`
@@ -122,7 +121,10 @@ Some notes regarding the example above:
 
 # A Table of Assets
 
-Now let's start with the actual implementation. The goal is to display the assets from the database as a table.
+Now let's start with the actual implementation.
+
+The goal is to display the assets from the database as a table.
+
 The user should be able to filter, sort and limit the results. If there are more results than what fits on a
 single page, the user should also be able to switch between pages.
 
@@ -146,14 +148,21 @@ define (or rather, understand) the models. (The `*` suffix means it's required)
  └──────────────┘
 ```
 
-Unless you are already familiar with this, you may wonder what the term `Model` means. A `Model` is
-the representation of a database table. It has columns, relations and keys. That's merely it, for now.
+Unless you are already familiar with this, you may wonder what the term `Model` means.
+
+A `Model` is the representation of a database table. It has columns, relations and keys. For this will use the `ipl-orm` library.
 
 So, with that out of the way, let's define the models for our two tables!
 
 ### Asset
 
 Create a new class `Asset.php` in `library/Training/Model`:
+
+```bash
+mkdir -p library/Training/Model
+
+vim library/Training/Model/Asset.php
+```
 
 ```php
 <?php
@@ -231,18 +240,27 @@ class User extends Model
 ## Creating a Custom Widget
 
 Now the basic setup of the database connection and ORM is done. Both are ready to use, though we still have no
-view for the assets. As mentioned in the introduction, this is what you previously set up as view script. (*.phtml)
-By having ipl-html at our disposal we can easily replicate that in an object oriented way.
+view for the assets. This is what you previously set up as a view script (`*.phtml`).
+
+By having `ipl-html` at our disposal we can easily replicate that in an object oriented way.
 
 ### Basic Structure
 
 Usually a widget is based on the `ipl\Html\BaseHtmlElement` class. Extend it, define a tag and you have your very
-first HTML element! Though, we will use `ipl\Html\Table` instead as it provides some useful features which lets us
+first HTML element!
+
+Though, we will use `ipl\Html\Table` instead as it provides some useful features which lets us
 define our table even faster. So let us do that, shall we?
 
 ### Define the Table
 
 Create a new class called `AssetTable` in the `Icinga\Module\Training\Web` namespace at `library/Training/Web`:
+
+```bash
+mkdir -p library/Training/Web
+
+vim library/Training/Web/AssetTable.php
+```
 
 ```php
 <?php
@@ -298,8 +316,12 @@ class AssetTable extends Table
 }
 ```
 
-Now the final part. HTML elements can construct themselves in a method called `assemble`. We use this to define
-a default layout for our table. It should have a heading where the columns are labelled and a body of course.
+Now the final part.
+
+HTML elements can construct themselves in a method called `assemble`.
+
+We use this to define a default layout for our table.
+It should have a heading where the columns are labelled and a body of course.
 
 ```php
     // ...
@@ -328,16 +350,22 @@ a default layout for our table. It should have a heading where the columns are l
 ```
 
 Here you can also see how to access columns of the results that were fetched from the database. Columns of a model
-are accessible by property or index. (`$asset['serial_no']`) If a model has relations, they are also accessible the
+are accessible by property or index (`$asset['serial_no']`).
+
+If a model has relations, they are also accessible the
 same way. Above this applies to the `$asset->user->name` access where `user` is our `User` model.
 
 ## Glueing it all Together
 
-We have now everything ready to start using it and display a table of assets. For this we need a route. Coincidentally,
-we already have a controller, the `AssetsController`, just an appropriate action is missing.
+We have now everything ready to start using it and display a table of assets. For this we need a route.
 
-The controller's route is `training/assets`, which fits perfectly with our case. Wouldn't it be nice if we could have
-an action that doesn't require a name? Yes we can! `index` is the magic name to achieve this:
+Coincidentally, we already have a controller, the `AssetsController`, just an appropriate action is missing.
+
+The controller's route is `training/assets`, which fits perfectly with our case.
+
+Wouldn't it be nice if we could have an action that doesn't require a name? Yes we can!
+
+`index` is the magic action name to achieve this:
 
 ```php
     //...
@@ -349,8 +377,9 @@ an action that doesn't require a name? Yes we can! `index` is the magic name to 
 }
 ```
 
-But what does the call to `addTitleTab()` do? It sets up a tab and the page title. If you want a different page title,
-use `setTitle()` afterwards.
+But what does the call to `addTitleTab()` do?
+
+It sets up a tab and the page title. If you want a different page title, use `setTitle()` afterwards.
 
 Let us now use what we have prepared so far and show the table of assets:
 
@@ -387,10 +416,13 @@ use Icinga\Module\Training\Web\AssetTable;
 ```
 
 This initializes the query first. While it does that, it also specifies that the `user` relation should be explicitly
-joined. We don't have to define the columns we want, by default all columns are selected. Any limit and offset is
-applied by `createPaginationControl()` which also returns an appropriately set up `ipl\Web\Control\PaginationControl`.
-`createSortControl()` does the same regarding sort rules. `createLimitControl()` just returns a control to adjust the
-limit.
+joined.
+
+We don't have to define the columns we want, by default all columns are selected.
+
+* Any limit and offset is applied by `createPaginationControl()` which also returns an appropriately set up `ipl\Web\Control\PaginationControl`.
+* `createSortControl()` does the same regarding sort rules.
+* `createLimitControl()` just returns a control to adjust the limit.
 
 All three controls still have to be registered, this is done by passing them on to `addControl()`. If they are not,
 they will not be rendered.
@@ -402,11 +434,12 @@ You can now look at the result by visiting the route: http://localhost/training/
 ## Searching
 
 At the moment the table can be sorted and the user has the ability to navigate through multiple pages. But looking
-for a specific asset is tedious if done by eyeballing the entries. We already used the trait `SearchControls` in the
-controller, which provides us with the tools to make this easier:
+for a specific asset is tedious if done by eyeballing the entries.
+
+We already used the trait `SearchControls` in the controller, which provides us with the tools to make this easier:
 
 ```php
-//...
+// application/controllers/AssetsController.php
 
 use ipl\Html\Html;
 use ipl\Web\Filter\QueryString;
@@ -446,7 +479,9 @@ use ipl\Web\Filter\QueryString;
 ```
 
 This sets up the `SearchBar`. Seems quite complex at first? Yeah, possibly. But most of what you see here is only
-*orchestration*. The `SearchBar` requires a connection with many parts, which makes it impossible to abstract its
+*orchestration*.
+
+The `SearchBar` requires a connection with many parts, which makes it impossible to abstract its
 usage even more. You will see this pattern in nearly every action that makes use of the `SearchBar`. So if you
 use it as well, you follow best practice so to say.
 
@@ -468,7 +503,7 @@ You may miss the icon on the right of the search bar, which lets you open the la
 just have to add the following to our controller:
 
 ```php
-//...
+// application/controllers/AssetsController.php
 
 use ipl\Web\Control\LimitControl;
 use ipl\Web\Control\SortControl;
@@ -515,10 +550,18 @@ Though, it does not exist yet so let us create it.
 
 Create a new class `AssetSuggestions` in the namespace `Icinga\Module\Training\Web\Control\SearchBar`:
 
+```bash
+mkdir -p library/Training/Web/Control/SearchBar
+
+vim library/Training/Web/Control/SearchBar/AssetSuggestions.php
+```
+
 ```php
 <?php
 
 namespace Icinga\Module\Training\Web\Control\SearchBar;
+
+use Icinga\Module\Training\Model\Asset;
 
 use ipl\Sql\Connection;
 use ipl\Stdlib\Filter;
@@ -572,7 +615,7 @@ class AssetSuggestions extends Suggestions
 }
 ```
 
-It extends an abstract class provided by ipl-web. The only thing required is that it has to implement some methods
+It extends an abstract class provided by `ipl-web`. The only thing required is that it has to implement some methods
 to deliver the data required to fulfill any completion requests. These are quick searches, value and column
 suggestions.
 
@@ -596,47 +639,46 @@ data to it as the search bar and editor will greatly benefit from it:
 ```
 
 `getSearchColumns()` does what the name implies. It is used to show a quick search suggestion in the search bar once
-the user starts typing and a new condition is about to start. `getColumnDefinitions()` provides a mapping from column
-names to labels. These labels are used in the search bar and editor instead of the column paths. They are also the
-source of the column suggestions and are used to validate the user's input.
+the user starts typing and a new condition is about to start.
 
-## Optional Tasks
+`getColumnDefinitions()` provides a mapping from column names to labels.
+These labels are used in the search bar and editor instead of the column paths.
+They are also the source of the column suggestions and are used to validate the user's input.
 
-**A Missing Entry** (Difficulty: Easy)
+### Trainings Task 1:
 
-If you take a look at the example data in the database, you will notice that there is a missing entry in our table!
-Figure out why and how to fix it.
+1. Take a look at the example data in the database, you will notice that there is a missing entry in our table.
+2. Figure out why and how to fix it.
 
-*Hints*
+Hints:
 
 * You can get the SQL statement of a query by using the method `dump()`
 * Remember what we used to tell the ORM how our database looks like
 
-**A Detail View** (Difficulty: Medium)
+### Trainings Task 2:
 
-In the basic tutorial you already learned how to set up detail views for single entries. Do the same now for the
-assets, but by using the IPL again.
+In the basic tutorial you already learned how to set up detail views for single entries. 
 
-*Hints*
+1. Create a detailed view for the database entries using the IPL
 
-* When choosing a route, think of what we did here and whether you could do the same 😉
+Hints:
 
-**Relation Column Suggestions** (Difficulty: Hard)
+* When choosing a route, think of what we did here and whether you could do the same
+
+### Trainings Task 3:
 
 You can request a list of column suggestions by pushing spacebar in the searchbar. However, this does not allow
 to search for a user's name. Though, if you type `user.name=*uncle*` it is accepted and applied on the query.
 
-Interesting, isn't it? Figure out how you may get a relation's columns into the column suggestions. You will also
+Interesting, isn't it?
+
+1. Figure out how you may get a relation's columns into the column suggestions. You will also
 need to solve a stacktrace that appears if you request value suggestions for `user.name`.
+2. Once you solved this and you typed a user name filter by assistance of the search bar, reload the page.
 
-Once you solved this and you typed a user name filter by assistance of the search bar, reload the page.
-Mega bonus points if the label of the column is not lost! If it is, figure out why and prevent it 😀
+Mega bonus points if the label of the column is not lost! If it is, figure out why and prevent it.
 
-*Hints*
-
-None. It is *"Difficulty: Hard"* after all 😅
-
-## Conclusion
+# Conclusion
 
 That's it. You now know how to set up a fully functional data view. You got an idea how some parts of the IPL
 are used and what it has to offer.
