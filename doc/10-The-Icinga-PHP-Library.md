@@ -277,15 +277,15 @@ class AssetTable extends Table
 We also want to use the standard styling Icinga Web provides, so initialize the `$defaultAttributes` property:
 
 ```php
-// ...
+<?php // ...
     protected $defaultAttributes = ['class' => 'common-table'];
-// ...
+    // ...
 ```
 
 It also needs the results from the database. These should be already required when creating the object:
 
 ```php
-// ...
+<?php // ...
     protected $assets;
 
     public function __construct($assets)
@@ -299,7 +299,7 @@ We might want to provide localization for our module. Use the trait `ipl\I18n\Tr
 its `$translationDomain` property:
 
 ```php
-// ...
+<?php // ...
 use ipl\I18n\Translation;
 
 class AssetTable extends Table
@@ -324,8 +324,7 @@ We use this to define a default layout for our table.
 It should have a heading where the columns are labelled and a body of course.
 
 ```php
-    // ...
-
+<?php  // ...
     protected function assemble()
     {
         $this->getHeader()->addHtml(self::row([
@@ -368,7 +367,7 @@ Wouldn't it be nice if we could have an action that doesn't require a name? Yes 
 `index` is the magic action name to achieve this:
 
 ```php
-    //...
+<?php //...
 
     public function indexAction()
     {
@@ -384,11 +383,9 @@ It sets up a tab and the page title. If you want a different page title, use `se
 Let us now use what we have prepared so far and show the table of assets:
 
 ```php
-//...
-
+<?php // ...
 use Icinga\Module\Training\Model\Asset;
 use Icinga\Module\Training\Web\AssetTable;
-
 //...
 
     public function indexAction()
@@ -439,7 +436,7 @@ for a specific asset is tedious if done by eyeballing the entries.
 We already used the trait `SearchControls` in the controller, which provides us with the tools to make this easier:
 
 ```php
-// application/controllers/AssetsController.php
+<?php // application/controllers/AssetsController.php
 
 use ipl\Html\Html;
 use ipl\Web\Filter\QueryString;
@@ -503,7 +500,7 @@ You may miss the icon on the right of the search bar, which lets you open the la
 just have to add the following to our controller:
 
 ```php
-// application/controllers/AssetsController.php
+<?php // application/controllers/AssetsController.php
 
 use ipl\Web\Control\LimitControl;
 use ipl\Web\Control\SortControl;
@@ -531,7 +528,7 @@ additions, which we will take a look at in detail now.
 First, add a new action to the controller:
 
 ```php
-//...
+<?php // ...
 
 use Icinga\Module\Training\Web\Control\SearchBar\AssetSuggestions;
 
@@ -623,6 +620,7 @@ The last remaining adjustment is that we also need to extend our `Asset` model s
 data to it as the search bar and editor will greatly benefit from it:
 
 ```php
+<?php // ...
     public function getSearchColumns()
     {
         return ['serial_no', 'type'];

@@ -142,6 +142,7 @@ These icons have been embedded in a font, which allows them to be styled the sam
 Alternatively, you can still use classic icons as images if you wish:
 
 ```php
+<?php
 $trainingMenu->setIcon('img/icons/success.png');
 ```
 
@@ -150,6 +151,7 @@ $trainingMenu->setIcon('img/icons/success.png');
 Alternatively we could use this syntax:
 
 ```php
+<?php
 $this->menuSection('Training'), [
   'icon' => 'beaker',
   'url'  => 'training'
@@ -180,6 +182,7 @@ The controller provides access to our view with the `$this->view` property.
 The action in the `HelloController.php` can set the data like this:
 
 ```php
+<?php
     public function worldAction()
     {
         $this->view->application = 'Icinga Web';
@@ -372,6 +375,7 @@ The class name MUST be the same as the filename.
 A `FileController.php` controller can now retrieve the data via this class:
 
 ```php
+<?php
 use Icinga\Module\Training\Directory;
 
 class FileController extends Controller
@@ -431,11 +435,12 @@ So far we have not added any parameters to our routes. Similar to the command li
 Access is as follows:
 
 ```php
+<?php
 // Will return null if the parameter is missing
 $file = $this->params->get('file');
 
 // Will throw an Exception if the parameter is missing
-$this->params->getRequired(file')
+$this->params->getRequired('file')
 ```
 
 `shift()` and the like are available as well.
@@ -502,6 +507,7 @@ functionality.
 This can be conveniently managed in the controllers:
 
 ```php
+<?php
     public function listAction()
     {
         // ...
@@ -526,27 +532,28 @@ The configuration for a module is stored at `/etc/icingaweb2/modules/<modulename
 Everything found in the `config.ini` file, is accessible in the controller:
 
 ```php
-    /*
-    Example config.ini
+<?php
+/*
+Example config.ini
 
-    [section]
-    entry = "value"
-    */
+[section]
+entry = "value"
+*/
 
-    public function configAction()
-    {
-        $config = $this->Config();
-        echo $config->get('section', 'entry');
+public function configAction()
+{
+    $config = $this->Config();
+    echo $config->get('section', 'entry');
 
-        // Returns 'default' because 'noentry' does not exist:
-        echo $config->get('section', 'noentry', 'default');
+    // Returns 'default' because 'noentry' does not exist:
+    echo $config->get('section', 'noentry', 'default');
 
-        // Reads from the special.ini instead of the config.ini:
-        $special = $this->Config('special');
-    }
+    // Reads from the special.ini instead of the config.ini:
+    $special = $this->Config('special');
+}
 ```
 
-### Training Task: 4
+## Training Task: 4
 
 1. Make the base path for the `list` controller configurable
 2. Use the `module directory` if no path is configured
@@ -603,8 +610,11 @@ The following call in any PHP file is enough to achieve this:
 ```php
 <?php
 
-require_once '/usr/local/icingaweb2/library/Icinga/Application/EmbeddedWeb.php';
-Icinga\Application\EmbeddedWeb::start('/usr/local/icingaweb2');
+require_once '/usr/local/icingaweb2/' // Must fit your system
+    . 'library/Icinga/Application/EmbeddedWeb.php';
+Icinga\Application\EmbeddedWeb::start(
+    '/usr/local/icingaweb2'
+);
 ```
 
 Done! No authentication, no bootstrapping of the full web interface. But any library code can be used.

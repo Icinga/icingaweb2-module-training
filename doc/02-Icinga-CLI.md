@@ -110,6 +110,7 @@ Inline comments can help documenting commands and their actions.
 This text is immediately available on the CLI, as a help text.
 
 ```php
+<?php
 /**
  * This is where we say hello
  *
@@ -153,16 +154,17 @@ Command line parameters are available in `$this->params`, which is an instance o
 This object has a `get($key, $default = null)` method, that returns the value of the given parameter. The method can also return a default value if the parameter is not found.
 
 ```php
-    /**
-     * Say hello from somewhere
-     *
-     * Usage: icingacli training hello from --where <somewhere>
-     */
-    public function fromAction()
-    {
-        $from = $this->params->get(where, 'nowhere');
-        echo "Hello from $from!\n";
-    }
+<?php
+/**
+ * Say hello from somewhere
+ *
+ * Usage: icingacli training hello from --where <somewhere>
+ */
+public function fromAction()
+{
+    $from = $this->params->get('where', 'nowhere');
+    echo "Hello from $from!\n";
+}
 ```
 
 Examples:
@@ -180,16 +182,17 @@ It is not necessary to assign an identifier to each parameter, you can simply ch
 These are accessible via the `shift()` method:
 
 ```php
-    /**
-     * Say hello from somewhere
-     *
-     * Usage: icingacli training hello from <somewhere>
-     */
-    public function fromAction()
-    {
-        $from = $this->params->shift();
-        echo "Hello from $from!\n";
-    }
+<?php
+/**
+ * Say hello from somewhere
+ *
+ * Usage: icingacli training hello from <somewhere>
+ */
+public function fromAction()
+{
+    $from = $this->params->shift();
+    echo "Hello from $from!\n";
+}
 ```
 
 The `shift()` method behaves the same way as in other programming languages: the first parameter of the list is returned and subsequently removed from the list.
@@ -221,11 +224,12 @@ the optional identifier (key), but still want to set something for the second (d
 identifier to null here:
 
 ```php
-    public function fromAction()
-    {
-        $from = $this->params->shift(null, 'Nowhere');
-        echo "Hello from $from!\n";
-    }
+<?php
+public function fromAction()
+{
+    $from = $this->params->shift(null, 'Nowhere');
+    echo "Hello from $from!\n";
+}
 ```
 
 Examples:
@@ -259,13 +263,14 @@ Icinga Web wants to promote clean PHP code. This includes, among other things, t
 For handling errors `Exception` are thrown.
 
 ```php
-    /**
-     * This will always fail
-     */
-    public function brokenAction()
-    {
-        $this->fail('No way!');
-    }
+<?php
+/**
+ * This will always fail
+ */
+public function brokenAction()
+{
+    $this->fail('No way!');
+}
 ```
 
 All actions support the `--trace` parameter to include a trace of the error. Examples:
@@ -304,19 +309,19 @@ We can use the `Icinga\Application\Logger` class to provide logging capabilities
 A Logger has multiple static functions corresponding to common log levels.
 
 ```php
+<?php
 use Icinga\Application\Logger;
-
 // ...
 
-    /**
-     * Log an error message
-     *
-     * Usage: icingacli training hello error <message>
-     */
-    public function errorAction()
-    {
-        Logger::error($this->params->shift(null, 'Something went wrong'));
-    }
+/**
+ * Log an error message
+ *
+ * Usage: icingacli training hello error <message>
+ */
+public function errorAction()
+{
+    Logger::error($this->params->shift(null, 'Something went wrong'));
+}
 ```
 
 The `Logger` class uses its `$writer` to output the messages. Icinga Web provides several predefined `LogWriter` classes in `Icinga\Application\Logger\Writer`.
@@ -347,6 +352,7 @@ The `Icinga\Cli\Screen` class provides functions to create colored output.
 Our Command class can use this via `$this->screen` to adjust colors:
 
 ```php
+<?php
 echo $this->screen->colorize("Example", 'lightblue') . "\n";
 ```
 
