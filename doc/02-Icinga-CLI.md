@@ -162,7 +162,7 @@ This object has a `get($key, $default = null)` method, that returns the value of
  */
 public function fromAction()
 {
-    $from = $this->params->get(where, 'nowhere');
+    $from = $this->params->get('where', 'nowhere');
     echo "Hello from $from!\n";
 }
 ```
