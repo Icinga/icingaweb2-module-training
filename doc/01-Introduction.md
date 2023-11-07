@@ -96,11 +96,14 @@ We will work on our module, step by step, during this training and fill it with 
 
 For the development we require PHP and the following PHP modules: `php-gd php-intl php-curl php-xml php-json`.
 
-Icinga builds up-to-date snapshots daily, for a wide range of operating systems, available at [packages.icinga.com](https://packages.icinga.com/). But for our training we will use the Git repository directly.
+Icinga builds up-to-date snapshots daily, for a wide range of operating systems, available at
+[packages.icinga.com](https://packages.icinga.com/). But for our training we will use the Git repository directly.
 
 ## Icinga Web from Source
 
-To get started, we need Icinga Web. For installing Icinga Web please check the [installation from source chapter](https://icinga.com/docs/icinga-web/latest/doc/02-Installation/07-From-Source/) in the documentation.
+To get started, we need Icinga Web. For installing Icinga Web please check the
+[installation from source chapter](https://icinga.com/docs/icinga-web/latest/doc/02-Installation/07-From-Source/)
+in the documentation.
 
 This also requires the Icinga PHP Library (ipl) and the Icinga PHP Thirdparty libraries (includes the Zend Framework).
 
@@ -137,7 +140,8 @@ module_path = "/usr/local/icingaweb2-modules:/usr/local/icingaweb2/modules"
 
 Once you know what the module is going to do, the hardest task is often choosing a good name.
 
-The name should not be too complicated, because we will use it in PHP namespaces, directory names, and URLs. Your own (company) name is often a good starting point.
+The name should not be too complicated, because we will use it in PHP namespaces, directory names, and URLs. Your own
+(company) name is often a good starting point.
 
 It should consist only of **alphanumeric characters** and **must not start with a number**. Examples:
 
