@@ -17,3 +17,4 @@ in the documentation.
 * Creating Icinga CLI Commands
 * Creating Web Content
 * Deep Dive into the Icinga PHP Library
+* Working with Third Party Libraries
