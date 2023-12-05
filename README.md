@@ -16,5 +16,6 @@ in the documentation.
 * Introduction into Icinga Web Module Development
 * Creating Icinga CLI Commands
 * Creating Web Content
-* Deep Dive into the Icinga PHP Library
+* Working with translations
 * Working with Third Party Libraries
+* Deep Dive into the Icinga PHP Library

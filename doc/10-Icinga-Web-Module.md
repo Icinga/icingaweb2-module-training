@@ -558,47 +558,6 @@ public function configAction()
 1. Make the base path for the `list` controller configurable
 2. Use the `module directory` if no path is configured
 
-# Translations
-
-The `translate()` function can be used to provide localization for text.
-
-```php
-<?php
-
-class ExampleController extends Controller
-{
-    public function indexAction()
-    {
-        $this->view->title = $this->translate('Hello World');
-    }
-}
-```
-
-The "Hello World" string will get an translated output, if there a translation available.
-
-Icinga Web uses the UNIX standard `gettext` tool to perform internationalization, this means translation files in the `.po` file format are supplied for text strings used in the code.
-
-With the `translation` module enable Icinga Web offers tooling to help create internationalization:
-
-```bash
-icingacli translation refresh module training de_DE
-```
-
-This will create a boilerplate file to get started:
-
-```bash
-cat modules/training/application/locale/de_DE/LC_MESSAGES/training.po
-
-# Icinga Web 2 Training module.
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: Training Module\n"
-...
-```
-
-Further information can be found in the [documentation](https://icinga.com/docs/icinga-web/latest/modules/translation/doc/03-Translation)
-
 # Using Icinga Web logic in third party software
 
 With Icinga Web we want to make the integration of third party software as easy as possible.
