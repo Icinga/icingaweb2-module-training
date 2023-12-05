@@ -1,8 +1,11 @@
 # Third Party Libraries
 
+While the PHP standard library is quite extensive sometimes third party libraries are required.
+This section will show how to include third party code in an Icinga Web module.
+
 ## module.info
 
-The `module.info` file contains metadata about a Icinga Web module. This information is available in the Icinga Web module overview. 
+The `module.info` file contains metadata about a Icinga Web module. This information is available in the Icinga Web module overview.
 
 Within the file we can use the following fields:
 
@@ -47,6 +50,13 @@ These are some of them:
 * [brick/math](https://github.com/brick/math)
 
 Refer to their respective documentation to see how to use them within your Icinga Web module.
+
+With the Icinga PHP 3rd party library installed we can use the above mentioned libraries simply like this:
+
+```php
+use GuzzleHttp\Client;
+use Ramsey\Uuid\Guid\Guid;
+```
 
 ## The Icinga Web Incubator
 
