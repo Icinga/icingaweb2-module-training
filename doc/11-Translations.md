@@ -37,6 +37,11 @@ class Directory
     use Translation;
 ```
 
+Further information on internationalization can be found here:
+
+* [gettext Documentation](https://www.gnu.org/software/gettext/)
+* [Icinga Web Documentation](https://icinga.com/docs/icinga-web/latest/modules/translation/doc/03-Translation)
+
 # Translation Files
 
 Icinga Web uses the UNIX standard `gettext` tool to perform internationalization, this means translation files are supplied via PO and MO files.
@@ -81,7 +86,12 @@ PO/MO files are placed in:
 
 Both of which need to be shipped with the module's PHP code.
 
-Further information can be found here:
+## No-Op Translation
 
-* [gettext Documentation](https://www.gnu.org/software/gettext/)
-* [Icinga Web Documentation](https://icinga.com/docs/icinga-web/latest/modules/translation/doc/03-Translation)
+You can also mark a string available for translation without it being translated immediately.
+
+This is done with the `N_()` method. It will make the given string available to translate when running `icingacli translation refresh`, but will simply return it without the translation.
+
+```php
+N_('Hello World')
+```
