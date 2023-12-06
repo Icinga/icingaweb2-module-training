@@ -88,9 +88,9 @@ Both of which need to be shipped with the module's PHP code.
 
 ## No-Op Translation
 
-You can also mark a string for available translation without actually translating it immediately.
+You can also mark a string available for translation without it being translated immediately.
 
-This is done with the `N_()` method. It will make the given string available to translate when running `icingacli translation refresh`, but will simply return it without the translation
+This is done with the `N_()` method. It will make the given string available to translate when running `icingacli translation refresh`, but will simply return it without the translation.
 
 ```php
 N_('Hello World')
