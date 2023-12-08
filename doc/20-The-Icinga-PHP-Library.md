@@ -105,7 +105,7 @@ class AssetsController extends CompatController
 Some notes regarding the example above:
 
 * This controller extends a new class, the `CompatController`. It is provided by `ipl-web` and acts as a compatibility
-  layer between Icinga Web and the IPL
+  layer between Icinga Web and the IPL. Since the IPL could also be used outside of Icinga Web.
 * It also uses a trait, `SearchControls`. This is also provided by `ipl-web` and implements initialization methods
   for the `SearchBar` and the `SearchEditor`, widgets we will use later on
 
