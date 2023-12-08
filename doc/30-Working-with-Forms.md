@@ -8,7 +8,7 @@ All custom form classes should be created in `application/forms`.
 
 `ipl\Html\Form` is a newer implementation and does not depend on `Zend_Form`, which older implementations did.
 
-Similar to the CompatController the `ipl\Web\Compat\CompatForm` class acts as a compatibility layer between Icinga Web and the IPL.
+Similar to the CompatController the `ipl\Web\Compat\CompatForm` class acts as a compatibility layer between Icinga Web and the IPL. Since the IPL could also be used outside of Icinga Web.
 
 These classes are generally used when you want to create forms.
 
