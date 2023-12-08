@@ -119,9 +119,18 @@ The `onRequest()` method is called when the Form is requested.
 
 Once the submit button is pressed, the following happens:
 
+1. The `hasBeenSubmitted()` method is used to determine if the submit button has been pressed. If you have multiple submit buttons (save, clear, delete) you can override the function to implement this logic
+
 1. The `isValid()` method is used to validate the given input data
-3. The `hasBeenSubmitted()` method is used to determine if the submit button has been pressed. If you have multiple submit buttons (save, clear, delete) you can override the function to implement this logic
-4. The `onSuccess()` method is called once the form has been validated and submitted. This is where the main functionality happens.
+
+1. The `onSuccess()` method is called once the form has been validated and submitted. This is where the main functionality happens. If this fail the Form's `onError()` method is called.
+
+We can see all this happening when we have a look that the Form's `handleRequest()` method.
+This is also the function we need to call to handle the requests, we simply ask the Controller for the request and pass it into the method:
+
+```php
+handleRequest($this->getServerRequest())
+```
 
 We can now add the `onSuccess()` method to the `AssetForm` class. This method will read the current values and send them to the database.
 
@@ -224,9 +233,18 @@ class AssetController extends CompatController
 }
 ```
 
-The Form will emit the ON_SUCCESS signal which we can use to notify the user about the condition of the request.
+Let's have a closer look at the final section. Since the `ipl\Html\Form` also uses the `Events` trait it can emit and handle events. This is what we see here:
 
-We can also use it to tell the controller to `__CLOSE__` the current tab.
+```php
+$form->on(AssetForm::ON_SUCCESS, function () {
+    Notification::success("Asset updated");
+    $this->redirectNow('__CLOSE__');
+});
+```
+
+The AssetForm will emit the ON_SUCCESS signal (one of the predefined signal, but you can also add your own), on which we can call a function.
+
+We can use this to notify the user about the condition of the request and to tell the controller to `__CLOSE__` the current tab.
 
 ## Extending the AssetTable
 
