@@ -259,6 +259,14 @@ $r = Table::row([
 ]);
 ```
 
+### Trainings Task 1:
+
+1. Extend the AssetForm to include a "Delete" button to remove an asset
+
+### Trainings Task 2:
+
+1. Extend the AssetsController with an `addAction()` that uses the AssetForm to add a new asset.
+
 # CSRF
 
 The IPL also provides a `CsrfCounterMeasure` trait to simply mitigating cross-site request forgery.
