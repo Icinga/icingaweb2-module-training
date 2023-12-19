@@ -116,7 +116,7 @@ class ConfigController extends CompatController
 }
 ```
 
-This will load the current values from from the `database` section and populate the DataBaseConfigForm with it. On saving it will store the given values in the `database` section.
+This will load the current values from the `database` section and populate the DataBaseConfigForm with it. On saving, it will store the given values in the `database` section.
 
 Everything will get written to `/etc/icingaweb2/modules/training/config.ini`
 
