@@ -124,7 +124,7 @@ Once the submit button is pressed, the following happens:
 * The `onSuccess()` method is called once the form has been validated and submitted. This is where the main functionality happens. If this fails the Form's `onError()` method is called
 
 We can see all this happening when we have a look that the Form's `handleRequest()` method.
-This is also the function we need to call to handle the requests, we simply ask the Controller for the request and pass it into the method:
+This is also the function we need to call to handle requests, we simply ask the Controller for the request and pass it into the method:
 
 ```php
 handleRequest($this->getServerRequest())
