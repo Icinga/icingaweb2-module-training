@@ -246,7 +246,7 @@ We can use this to notify the user about the condition of the request and to tel
 
 ## Extending the AssetTable
 
-Finally, we need to add links to our `AssetTable`. This will enable the user to click in a serial number to open the Asset tab:
+Finally, we need to add links to our `AssetTable`. This will enable the user to click on a serial number to open the Asset tab:
 
 ```php
 $l = new Link($asset->serial_no, Url::fromPath('training/asset/', ['serial' => $asset->serial_no]));
