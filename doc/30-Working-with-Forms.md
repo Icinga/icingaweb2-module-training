@@ -109,7 +109,7 @@ class AssetForm extends CompatForm
 }
 ```
 
-The Form class has various methods to work with input.
+The `Form` class has various methods to work with input.
 
 The `getValues()` and the `getValue()` method can be used to retrieve data from an input element.
 
