@@ -121,7 +121,7 @@ Once the submit button is pressed, the following happens:
 
 * The `hasBeenSubmitted()` method is used to determine if the submit button has been pressed. If you have multiple submit buttons (save, clear, delete) you can override the function to implement this logic
 * The `isValid()` method is used to validate the given input data
-* The `onSuccess()` method is called once the form has been validated and submitted. This is where the main functionality happens. If this fail the Form's `onError()` method is called.
+* The `onSuccess()` method is called once the form has been validated and submitted. This is where the main functionality happens. If this fails the Form's `onError()` method is called
 
 We can see all this happening when we have a look that the Form's `handleRequest()` method.
 This is also the function we need to call to handle the requests, we simply ask the Controller for the request and pass it into the method:
