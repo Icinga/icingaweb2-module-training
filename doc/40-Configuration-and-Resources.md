@@ -120,7 +120,7 @@ This will load the current values from the `database` section and populate the D
 
 Everything will get written to `/etc/icingaweb2/modules/training/config.ini`
 
-We can now open our DatabaseConfigForm we can enter `assets.sqlite` and save. Our config should now look like this:
+We can now open our DatabaseConfigForm, where we can enter `assets.sqlite` and save. Our config should now look like this:
 
 ```
 [Database]
