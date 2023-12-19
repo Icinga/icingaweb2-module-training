@@ -260,7 +260,7 @@ final class Database
 }
 ```
 
-Of course we would use a `Database` resouces in a real Icinga Web module.
+Of course we would use a `Database` resource in a real Icinga Web module.
 
 Further information on resources can be found here:
 
