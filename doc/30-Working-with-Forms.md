@@ -261,7 +261,7 @@ $r = Table::row([
 
 ### Trainings Task 1:
 
-1. Extend the AssetForm to include a "Delete" button to remove an asset
+1. Extend the AssetForm to include a "Delete" button to remove an asset.
 
 ### Trainings Task 2:
 
