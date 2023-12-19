@@ -23,7 +23,7 @@ $this->providePermission(
 );
 ```
 
-We can now use these permissions in our Controllers by using the `assertPermission()` method. For example in the `init()` method which is called by the constructor. This would require the given permission for the entire Controller.
+We can now use these permissions in our Controllers by using the `assertPermission()` method. For example in the `init()` method which is called by the constructor. This would require a user to have the given permission for the entire Controller.
 
 ```php
 public function init()
