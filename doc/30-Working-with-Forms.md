@@ -269,7 +269,7 @@ $r = Table::row([
 
 # CSRF
 
-The IPL also provides a `CsrfCounterMeasure` trait to simply mitigating cross-site request forgery.
+The IPL also provides a `CsrfCounterMeasure` trait to simplify mitigating cross-site request forgery.
 
 This trait can be added to a form to add a hidden CSRFToken.
 
