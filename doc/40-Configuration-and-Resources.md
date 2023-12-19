@@ -192,7 +192,7 @@ public function init()
 
 # Resources
 
-Instead of having data sources such as databases scattered across many modules, Icinga Web provides a central `resources.ini` file that contains information about data sources. These can be referenced in other configuration files.
+Instead of having data sources - such as databases - scattered across many modules, Icinga Web provides a central `resources.ini` file that contains information about data sources. These can be referenced in other configuration files.
 
 This allows you to manage all data sources in a central place, avoiding the need to edit several different files when the information about a data source changes.
 
