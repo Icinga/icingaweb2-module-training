@@ -240,7 +240,7 @@ $form->on(AssetForm::ON_SUCCESS, function () {
 });
 ```
 
-The AssetForm will emit the ON_SUCCESS signal (one of the predefined signal, but you can also add your own), on which we can call a function.
+The AssetForm will emit the ON_SUCCESS signal (one of the predefined signals, but you can also add your own), on which we can call a function.
 
 We can use this to notify the user about the condition of the request and to tell the controller to `__CLOSE__` the current tab.
 
