@@ -1,6 +1,6 @@
 # Translations
 
-Icinga Web 2 provides localization out of the box - for itself and the core modules.
+Icinga Web provides localization out of the box - for itself and the core modules.
 
 This is done via the PHP library `ipl\i18n`, which provides a translation suite using PHP's native gettext extension. Hint: 'i18n' is an abbreviation for 'internationalization'.
 
@@ -61,7 +61,7 @@ PO files are transformed into MO files, that are meant to be read by programs.
 
 # Creating Translations
 
-With the `translation` module enabled the Icinga Web CLI offers tooling to help create internationalization:
+With the `translation` module enabled the Icinga CLI helps to create internationalization:
 
 ```bash
 icingacli translation refresh module training de_DE
@@ -72,7 +72,7 @@ This will create a boilerplate file to get you started:
 ```bash
 cat modules/training/application/locale/de_DE/LC_MESSAGES/training.po
 
-# Icinga Web 2 Training module.
+# Icinga Web Training module.
 #, fuzzy
 msgid ""
 msgstr ""

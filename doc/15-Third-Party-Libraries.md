@@ -32,7 +32,7 @@ This is also where we would specify required libraries or modules and their vers
 
 ## The Icinga PHP Third Party Project
 
-The [Icinga PHP 3rd party](https://github.com/Icinga/icinga-php-thirdparty) project bundles all 3rd party PHP libraries used by Icinga Web products into one piece.
+The [Icinga PHP 3rd party](https://github.com/Icinga/icinga-php-thirdparty) project bundles all 3rd party PHP libraries used by Icinga Web products.
 These are some of them:
 
 * [jQuery](https://github.com/components/jquery)
@@ -60,7 +60,7 @@ use Ramsey\Uuid\Guid\Guid;
 
 ## The Icinga Web Incubator
 
-The [Icinga Web Incubator](https://github.com/Icinga/icingaweb2-module-incubator) ships bleeding edge libraries useful for Icinga Web 2 modules.
+The [Icinga Web Incubator](https://github.com/Icinga/icingaweb2-module-incubator) ships bleeding edge libraries useful for Icinga Web modules.
 
 Each library is namespaced by their respective creator. This means you would import and use an incubator library like this:
 
@@ -75,6 +75,16 @@ Please be aware that all incubator libraries are experimental and thus prone to 
 ## Custom/Third Party CSS and JavaScript
 
 Icinga Web provides several directories for loading custom/third party CSS and JavaScript code.
+
+    .
+    └── training                Basic directory of the module
+        ├── application
+        ├── configuration.php   Deploy menu, dashlets, permissions
+        ├── module.info         Module Metadata
+        ├── public
+        │   ├── css             Own CSS Code
+        │   ├── img             Own Images
+        │   └── js              Own JavaScript
 
 ### CSS
 
@@ -94,7 +104,7 @@ Additional CSS/Less files from the `public/css` directory can be loaded via the 
 $this->provideCssFile(more.less');
 ```
 
-This directory is also where you would place third party CSS code, either minified or unminified, since Icinga Web will minify for you.
+This directory is also where you would place third party CSS code, either minified or unminified, since Icinga Web will minify things for you.
 
 ### JavaScript
 

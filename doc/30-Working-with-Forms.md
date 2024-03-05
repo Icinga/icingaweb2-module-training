@@ -1,6 +1,6 @@
 # Working with Forms
 
-HTML Forms allow us to manipulate data. To create forms for Icinga Web we use or extend the `Form` class.
+HTML Forms allow us to manipulate data. To create forms for Icinga Web we use or extend the `Form` class provided by `ipl-html`.
 
 All custom form classes should be created in `application/forms`.
 
@@ -113,7 +113,7 @@ The `Form` class has various methods to work with input.
 
 The `getValues()` and the `getValue()` method can be used to retrieve data from an input element.
 
-Often you want to preset some values. This is possible either for the whole form via `populate($values)` or for single element via `setValue($value)`.
+Often you want to preset some default values. This is possible either for the whole form via `populate($values)` or for single element via `setValue($value)`.
 
 The `onRequest()` method is called when the Form is requested.
 
@@ -269,7 +269,7 @@ $r = Table::row([
 
 # CSRF
 
-The IPL also provides a `CsrfCounterMeasure` trait to simplify mitigating cross-site request forgery.
+The `ipl-web` library provides a `CsrfCounterMeasure` trait to simplify mitigating against cross-site request forgery.
 
 This trait can be added to a form to add a hidden CSRFToken.
 
