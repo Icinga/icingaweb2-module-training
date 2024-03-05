@@ -1,16 +1,9 @@
 # Digging Deeper – The Icinga PHP Library
 
-The basic tutorial already covered how to create routes and views. You also learned how to create your own library
-parts.
+The basic tutorial already covered how to create routes and views, as well as how to create your own library parts.
+This tutorial will show you how to achieve the same (and more) by using the Icinga PHP Library (IPL). It also includes working with databases.
 
-This tutorial will go deeper and shows you how to achieve the same (and more) but by using what the Icinga
-PHP Library (IPL) has to offer.
-
-As well as working with databases.
-
-## The Library's Parts
-
-It consists of the following separate libraries:
+The [IPL](https://github.com/Icinga/icinga-php-library) is a bundle of multiple separate PHP libraries, each with a specific purpose:
 
 * [ipl-html](https://github.com/Icinga/ipl-html)
   * This is a HTML abstraction layer. Essentially, it is the successor of what you already learned about view scripts. It lets you write HTML in an object oriented way
@@ -27,26 +20,23 @@ It consists of the following separate libraries:
 * [ipl-web](https://github.com/Icinga/ipl-web)
   * It combines all other parts to provide useful widgets and base implementations for such. If you want to extend your views with controls such as the mighty `Search Bar` or maybe a `SortControl` and a `LimitControl`, this provides them.
 
-## Prerequisites
+**Prerequisites**:
 
-You need at least Icinga Web in version 2.9 and then you're good to go and can
-[install](https://github.com/Icinga/icinga-php-library) them.
+You need at least Icinga Web version 2.9 and then you're good to go and can install them.
 
-# Starting Off
+# Database Setup
 
-We need to prepare a database first. For ease of use, this tutorial uses a sqlite database.
+This section will show how to interact with SQL databases using the `ipl-sql` and `ipl-orm` libraries.
 
-But you may also use a e.g MySQL backend – you'd have to adjust some of the connection examples then, though.
+For this, we need to prepare a database first. To keep it simple, this tutorial uses sqlite (you could also use a MySQL backend, but you'd have to adjust some of the connection examples then).
 
-## Database Setup
-
-`sqlite3` is the commandline tool for sqlite, let's install it:
+`sqlite3` is the command line tool for sqlite, let's install it:
 
 ```bash
-apt install sqlite3
+apt install -y sqlite3
 ```
 
-Now import the database schema that's shipped with this tutorial [here](res/asset-db.sql):
+Now import the database schema shipped with this tutorial [here](res/asset-db.sql):
 
 ```bash
 mkdir -p /etc/icingaweb2/modules/training/
@@ -55,17 +45,18 @@ cd /usr/share/icingaweb2/modules/training/
 sqlite3 /etc/icingaweb2/modules/training/assets.sqlite < doc/res/asset-db.sql
 ```
 
-This databse now contains some users and several assets that belong to these users.
+This database now contains some users and several assets that belong to these users.
 
 ## Create a New Controller
 
-It is recommended to use a new controller. Thus we create the class `AssetsController` in the usual place:
+We now want to display the asset data from the database in the web interface.
+For this we create new controller named `AssetsController` in the usual place:
 
 ```bash
 vim application/controllers/AssetsController.php
 ```
 
-This controller will connect to the database:
+This controller will connect to the database using `ipl-sql`:
 
 ```php
 <?php
@@ -110,9 +101,7 @@ Some notes regarding the example above:
   for the `SearchBar` and the `SearchEditor`, widgets we will use later on
 
 `getDb()` returns the database connection to be used in various places. If you are not using sqlite, update this
-according to your backend
-
-The following additional configuration options might be useful to you:
+according to your backend. The following additional configuration options might be useful:
 
   * `host`
   * `port`
@@ -242,15 +231,19 @@ class User extends Model
 Now the basic setup of the database connection and ORM is done. Both are ready to use, though we still have no
 view for the assets. This is what you previously set up as a view script (`*.phtml`).
 
-By having `ipl-html` at our disposal we can easily replicate that in an object oriented way.
+However, by having `ipl-html` at our disposal we can easily replicate that in an object oriented way.
+This means, creating PHP objects that can be rendered into HTML.
+
+Hint: in official Icinga Web modules these are conventionally called a "Widget".
 
 ### Basic Structure
 
 Usually a widget is based on the `ipl\Html\BaseHtmlElement` class. Extend it, define a tag and you have your very
 first HTML element!
 
-Though, we will use `ipl\Html\Table` instead as it provides some useful features which lets us
-define our table even faster. So let us do that, shall we?
+Though, we will use `ipl\Html\Table` instead, it is already extends `BaseHtmlElement` and provides some useful features which lets us define our table even faster.
+
+So let us do that, shall we?
 
 ### Define the Table
 
@@ -318,7 +311,7 @@ class AssetTable extends Table
 
 Now the final part.
 
-HTML elements can construct themselves in a method called `assemble`.
+These HTML objects can construct themselves in a method called `assemble`.
 
 We use this to define a default layout for our table.
 It should have a heading where the columns are labelled and a body of course.
@@ -354,13 +347,13 @@ are accessible by property or index (`$asset['serial_no']`).
 If a model has relations, they are also accessible the
 same way. Above this applies to the `$asset->user->name` access where `user` is our `User` model.
 
-## Glueing it all Together
+## Putting it all Together
 
-We have now everything ready to start using it and display a table of assets. For this we need a route.
+We have now everything ready to start using the widget and display a table of assets. For this we need a route.
 
 Coincidentally, we already have a controller, the `AssetsController`, just an appropriate action is missing.
 
-The controller's route is `training/assets`, which fits perfectly with our case.
+The controller's route is `training/assets`, which fits our case perfectly.
 
 Wouldn't it be nice if we could have an action that doesn't require a name? Yes we can!
 
@@ -376,9 +369,8 @@ Wouldn't it be nice if we could have an action that doesn't require a name? Yes 
 }
 ```
 
-But what does the call to `addTitleTab()` do?
-
-It sets up a tab and the page title. If you want a different page title, use `setTitle()` afterwards.
+The call to `addTitleTab()` sets up a tab and the page title.
+If you want a different page title, use `setTitle()` afterwards.
 
 Let us now use what we have prepared so far and show the table of assets:
 

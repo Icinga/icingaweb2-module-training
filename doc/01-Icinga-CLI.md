@@ -1,17 +1,21 @@
 # The Icinga CLI
 
-The Icinga CLI was designed to provide most of the application logic in Icinga Web, and its modules, on the
-commandline. Example use cases are:
+Before diving into web development let's look at the Icinga CLI (command line interface) capabilities.
+It is a good starting point to get familiar with a web module's structure and namespaces.
+
+The Icinga CLI was designed to provide most of the application logic in Icinga Web, and its modules, on the command line.
+
+Example use cases are:
 
 * Cronjobs
 * Plugins
 * Data import and export
 * Housekeeping tools
-* smaller services (like the development web server)
+* Smaller services (like the development web server)
 
 ## CLI Commands
 
-The structure of the CLI commands is:
+The structure of CLI commands is:
 
 ```bash
 icingacli <module> <command> <action>
@@ -93,7 +97,7 @@ The Icinga CLI provides autocompletion for all modules, commands and actions.
 
 If you install Icinga Web from packages, everything is already in the right place.
 
-For our test environment we will do this manually:
+For the test environment we can do this manually:
 
 ```bash
 apt-get install -y bash-completion
@@ -102,7 +106,7 @@ cp /usr/local/icingaweb2/etc/bash_completion.d/icingacli /etc/bash_completion.d/
 . /etc/bash_completion
 ```
 
-If the input is ambiguous as in `icingacli mo`, an appropriate help text is displayed.
+If the input is ambiguous - as in `icingacli mo` - an appropriate help text is displayed.
 
 ## Inline Documentation for CLI Commands
 

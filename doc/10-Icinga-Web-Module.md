@@ -340,8 +340,8 @@ There are some exceptions to that rule:
 
 Any sub-directory of `library/Training` represents its own namespace. For example:
 
-* `library/Training/FileSystem` uses `Icinga\Module\Training\FileSystem`
-* `library/Training/FileSystem/FileInfo` uses `Icinga\Module\Training\FileSystem\FileInfo`
+* The directory `library/Training/FileSystem` uses the namespace `Icinga\Module\Training\FileSystem`
+* The directory `library/Training/FileSystem/FileInfo` uses the namespace `Icinga\Module\Training\FileSystem\FileInfo`
 
 A class, that implements the solution for the last exercise, might be in `library/Training/Directory.php`:
 
@@ -430,7 +430,8 @@ Other useful features in the view are:
 
 # Parameter handling
 
-So far we have not added any parameters to our routes. Similar to the command line, Icinga Web provides simple access to URL parameters.
+So far we have not added any parameters to our routes.
+Similar to the `Command` class, an Icinga Web `Controller` provides simple access to URL parameters.
 
 Access is as follows:
 
@@ -450,7 +451,7 @@ $this->params->getRequired('file')
 1. Add an `show` action to the `FileController.php`
 2. Use the URL parameter `file` in the new `show` action to display additional information about the given file
 
-You can display owners, permissions, last change and mime-type - but it is also quite simple enough to
+You can display owners, permissions, last change and mime-type - but it is also quite simple to
 display name and size in a more orderly fashion.
 
 # URL handling and multi column layout
@@ -487,12 +488,12 @@ Other options for the `data-base-target` are:
 * `_self`
 * `col1`, `col2`, `col3`
 
-Those who has keep a watch on how their browser behaves, may have noticed that not every click reloads the page.
-Icinga Web intercepts all requests and sends them separately via XHR request. On the server side, this is detected,
+If you have noticed how the browser behaves, you may have noticed that not every click reloads the page.
+Icinga Web intercepts all requests and sends them separately via an XHR request. On the server side, this is detected,
 and then only the respective HTML snippet is sent as a response. The response usually only matches the output created
-by the corresponding view script. This type of web application is also known as *Single Page Application*. (SPA)
+by the corresponding view script. This type of web application is also known as *Single Page Application* (SPA).
 
-Yet, each link remains a link and can e.g. be opened in a new tab. There it is recognized that this is not an
+Yet, each link remains a link and can be opened in a new tab, where it is recognized that this is not an
 XHR request and the entire layout is delivered.
 
 Usually, links always open in the same container, but you can influence the behavior with `data-base-target`.
@@ -525,28 +526,33 @@ Our file list should update automatically, the detail information panel should a
 
 # Configuration
 
-Those who develop a module would most likely want to be able to configure it too.
+A web module can use configuration files in the INI format to store settings.
+The INI format contains one key–value pair per line organized into sections.
 
-The configuration for a module is stored at `/etc/icingaweb2/modules/<modulename>/config.ini`.
-
-Everything found in the `config.ini` file, is accessible in the controller:
-
-```php
-<?php
-/*
-Example config.ini
+```
+# Example config.ini
 
 [section]
 entry = "value"
-*/
 
+[anothersection]
+anotherentry = "anothervalue"
+```
+
+The configuration for a module is stored at `/etc/icingaweb2/modules/<modulename>/config.ini`.
+Everything found in the `config.ini` file, is accessible to the module.
+For example in the controller:
+
+```php
+<?php
 public function configAction()
 {
+    // Reads from the config.ini
     $config = $this->Config();
     echo $config->get('section', 'entry');
 
-    // Returns 'default' because 'noentry' does not exist:
-    echo $config->get('section', 'noentry', 'default');
+    // Returns 'default-value' because 'no-such-entry' does not exist:
+    echo $config->get('section', 'no-such-entry', 'default-value');
 
     // Reads from the special.ini instead of the config.ini:
     $special = $this->Config('special');
@@ -576,4 +582,4 @@ Icinga\Application\EmbeddedWeb::start(
 );
 ```
 
-Done! No authentication, no bootstrapping of the full web interface. But any library code can be used.
+Done! No authentication, no bootstrapping of the full web interface, yet any library code can be used.

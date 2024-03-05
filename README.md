@@ -1,14 +1,14 @@
-# Icinga Web 2 Training Module
+# Icinga Web Training Module
 
 ![Icinga Banner](doc/images/icinga.png)
 
-This module is a guide to help you write your own modules for **Icinga Web 2**.
+This module is a guide to help you write your own modules for **Icinga Web**.
 
 ## Prerequisites
 
 This content assumes that you are familiar with web development using PHP and working with SQL databases.
 
-For installing Icinga Web 2 please check the [installation chapter](https://icinga.com/docs/icingaweb2/latest/doc/02-Installation/)
+For installing Icinga Web please check the [installation chapter](https://icinga.com/docs/icingaweb2/latest/doc/02-Installation/)
 in the documentation.
 
 ## Contents
