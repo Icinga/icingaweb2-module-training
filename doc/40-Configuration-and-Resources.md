@@ -141,7 +141,7 @@ Config::module('anothermodule')->get('db', 'resource');
 
 We can use this new config to refactor our database connection to be in a common place:
 
-In `library/Training/Database.php` we can create a common database setup:
+In `library/Training/Database.php` we can create a common database setup as a PHP `trait`:
 
 ```php
 <?php
@@ -152,23 +152,23 @@ use Icinga\Application\Config;
 use Icinga\Application\Icinga;
 use ipl\Sql\Connection;
 
-final class Database
+trait Database
 {
-    private static $db;
+    private $db;
 
-    public static function get()
+    public function getDb()
     {
         $filename = Config::module('training')->get('database', 'dbfile');
         $dir = Icinga::app()->getModuleManager()->getModule('training')->getConfigDir();
 
-        if (self::$db === null) {
-            self::$db = new Connection([
+        if ($this->db === null) {
+            $this->db = new Connection([
                 'db' => 'sqlite',
                 'dbname' => $dir . '/'. $filename
             ]);
         }
 
-        return self::$db;
+        return $this->db;
     }
 }
 ```
@@ -178,17 +178,14 @@ Now we can simply use this to get our database connection:
 ```php
 use Icinga\Module\Training\Database;
 
-$db = Database::get()
-```
-
-And we can replace the `getDb()` method in our controllers with this:
-
-```php
-public function init()
+class AssetsController extends CompatController
 {
-    $this->db = Database::get();
+    use SearchControls;
+    use Database;
 }
 ```
+
+The `getDb()` method in the controller can now be removed since we use the method given by the `trait`.
 
 # Resources
 
@@ -230,7 +227,7 @@ $this->addElement(
 );
 ```
 
-With the new resource and configuration in place, we can refactor the database setup in `library/Training/Database.php`:
+With the new resource and configuration in place, we can refactor the database trait in `library/Training/Database.php`:
 
 ```php
 <?php
@@ -242,21 +239,23 @@ use Icinga\Data\ResourceFactory;
 use Icinga\Application\Config;
 use ipl\Sql\Connection;
 
-final class Database
+trait Database
 {
-    private static $db;
+    private $db;
 
-    public static function get()
+    public function getDb()
     {
         $f = Config::module('training')->get('database', 'resource');
         $r = ResourceFactory::getResourceConfig($f);
 
-        if (self::$db === null) {
-            self::$db = new Connection([
+        if ($this->db === null) {
+            $this->db = new Connection([
                 'db' => 'sqlite',
                 'dbname' => $r->filename
             ]);
         }
+        return $this->db;
+    }
 }
 ```
 
