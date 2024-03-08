@@ -248,6 +248,25 @@ $conn = new Connection([
 $users = User::on($conn)->execute();
 ```
 
+Here we can also leverage Filters from `ipl-stdlib`. These can be used to modify the ORM query to select a subset of the data.
+For example:
+
+```php
+use ipl\Stdlib\Filter;
+
+$user = User::on($conn)->filter(Filter::like('name', $searchTerm));
+
+$user = User::on($conn)
+    ->filter(Filter::equal('id', $id))
+    ->first();
+
+$assets = Asset::on($conn)
+    ->filter(Filter::all(
+        Filter::equal('manufacturer', $assetManufacturer),
+        Filter::equal('type', $assetType)
+));
+```
+
 ## Relations
 
 Instead of handcrafting SQL joins, the `ipl-orm` library provides `Relations` that can be established between models.
