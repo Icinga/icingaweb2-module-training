@@ -30,6 +30,8 @@ To enable internationalization in any custom class we can simply add the `Transl
 
 namespace Icinga\Module\Training;
 
+use ipl\I18n\Translation;
+
 use DirectoryIterator;
 
 class Directory
