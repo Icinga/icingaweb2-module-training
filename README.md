@@ -4,6 +4,10 @@
 
 This module is a guide to help you write your own modules for **Icinga Web**.
 
+We also provide Video tutorials for this training:
+
+https://www.youtube.com/playlist?list=PLVDjq9pYkysDUk0imvEGDg5TpybsLHiUh
+
 ## Prerequisites
 
 This content assumes that you are familiar with web development using PHP and working with SQL databases.
