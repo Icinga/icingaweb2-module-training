@@ -441,7 +441,7 @@ Access is as follows:
 $file = $this->params->get('file');
 
 // Will throw an Exception if the parameter is missing
-$this->params->getRequired('file')
+$this->params->getRequired('file');
 ```
 
 `shift()` and the like are available as well.
