@@ -262,6 +262,8 @@ The first parameter is the path to the image, the second parameter is an array c
 </div>
 ```
 
+**Hint:** Be aware of [Content-Security-Policy](https://content-security-policy.com/) when using inline style or scripts.
+
 # Adding CSS
 
 We can add custom CSS to a module by placing a `module.less` file in the directory `public/css`.
