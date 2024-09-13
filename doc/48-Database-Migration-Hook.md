@@ -127,7 +127,7 @@ use ipl\Orm\Model;
  * A database model for Training schema version table
  *
  * @property int $id Unique identifier of the database schema entries
- * @property string $version The current schema version of Icinga Web
+ * @property string $version The current schema version of the module
  * @property DateTime $timestamp The insert/modify time of the schema entry
  * @property bool $success Whether the database migration of the current version was successful
  * @property ?string $reason The reason why the database migration has failed
