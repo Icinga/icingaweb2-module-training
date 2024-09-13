@@ -1,5 +1,8 @@
 # IPL and Databases
 
+This section will give an overview of IPL classes and concepts when working with databases.
+It assumes that you are familiar with working with databases in PHP.
+
 Icinga Web module work very commonly databases, either to store their own data or to read data from other modules.
 This is why the IPL provides two libraries to work with databases.
 

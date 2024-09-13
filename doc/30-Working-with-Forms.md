@@ -1,5 +1,8 @@
 # Working with Forms
 
+This section will give an overview of IPL classes and concepts when working with forms.
+The section builds upon the previous "Table of Assets" section.
+
 HTML Forms allow us to manipulate data. To create forms for Icinga Web we use or extend the `Form` class provided by `ipl-html`.
 
 All custom form classes should be created in `application/forms`.
