@@ -231,3 +231,53 @@ $this->provideHook(
     'Icinga\Module\Training\ProvidedHook\Training\Example'
 );
 ```
+
+## Useful Hooks
+
+The following will list some of the available Hooks you can implement.
+
+### DetailExtensionHooks
+
+The `HostDetailExtensionHook` and the `ServiceDetailExtensionHook` can be used to extend the
+HTML representation of a given host or service.
+
+```php
+use Icinga\Module\Icingadb\Hook\HostDetailExtensionHook;
+use Icinga\Module\Icingadb\Hook\ServiceDetailExtensionHook;
+```
+
+### HealthHook
+
+The `HealthHook` can be used to display a overall health status of the module in Icinga Web's System Health page.
+
+```php
+namespace Icinga\Module\Training\ProvidedHook;
+
+use Icinga\Application\Hook\HealthHook;
+
+class Health extends HealthHook
+{
+  public function getName(): string
+  {
+      return 'Training Module';
+  }
+
+  public function checkHealth(): void
+  {
+        $this->setState(self::STATE_OK);
+        $this->setMessage('Training Module is healthy');
+  }
+}
+```
+
+This can be used for various things (e.g. verifying the connection to an external requirement, internal status of the module, etc.).
+
+### DbMigrationHook
+
+The `DbMigrationHook` can be used to automatically perform database migrations.
+
+```php
+use Icinga\Application\Hook\DbMigrationHook;
+```
+
+The next section will cover this in detail.
