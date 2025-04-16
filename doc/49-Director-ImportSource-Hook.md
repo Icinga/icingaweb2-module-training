@@ -52,7 +52,7 @@ class ImportSource extends ImportSourceHook
      */
     public function fetchData()
     {
-        // The fetch data function is the primary function that is used.
+        // This method implements the core functionality
         // It should return an iterable that provides simple php objects with public properties as columns. (e.g. `(object) ['foo' => 'bar'])`
         return [
             (object) ['host' => 'host-1', 'ip' => '127.0.0.1'],
