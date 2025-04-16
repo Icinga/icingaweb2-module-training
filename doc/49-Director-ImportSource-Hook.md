@@ -71,4 +71,4 @@ class ImportSource extends ImportSourceHook
 }
 ```
 
-This example is very simple and returns the objects hardcoded. In an advanced ImportSource, they would of course be fetched from an external source via APIs or similar, processed, and passed to the Director in the needed format.
+This example is very simple and returns just static objects. In a more advanced ImportSource, they would be fetched from an external source via APIs or similar, then processed and passed to the Director.
