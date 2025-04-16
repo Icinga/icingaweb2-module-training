@@ -286,6 +286,8 @@ use CsrfCounterMeasure;
 
     protected function assemble()
     {
-      $this->add($this->createCsrfCounterMeasure(Session::getSession()->getId()));
+      $this->addElement($this->createCsrfCounterMeasure(Session::getSession()->getId()));
 ...
 ```
+
+Always use `addElement()` for CSRF tokens, as `add()` only adds HTML content and does not register any form elements.
