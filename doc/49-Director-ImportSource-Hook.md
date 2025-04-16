@@ -4,7 +4,7 @@ The Icinga Director has the functionality to pull objects from external sources 
 
 The interface to build your own ImportSource is the [ImportSourceHook](https://github.com/Icinga/icingaweb2-module-director/blob/master/library/Director/Hook/ImportSourceHook.php).
 
-The following functions form the basic logic:
+The following methods need to be implemented:
 
 ```php
 <?php
