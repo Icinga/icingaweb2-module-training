@@ -101,7 +101,7 @@ vim public/css/module.less
 Additional CSS/Less files from the `public/css` directory can be loaded via the `configuration.php` file:
 
 ```php
-$this->provideCssFile(more.less');
+$this->provideCssFile('more.less');
 ```
 
 This directory is also where you would place third party CSS code, either minified or unminified, since Icinga Web will minify things for you.
