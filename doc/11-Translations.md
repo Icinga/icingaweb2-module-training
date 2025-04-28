@@ -81,6 +81,13 @@ msgstr ""
 "Project-Id-Version: Training Module\n"
 ```
 
+We recommend using the tool [poedit](https://poedit.net/). If you use poedit it will generate the MO files for you.  
+If you edit the file manually, you will need to run the following command to generate the MO files:
+
+```bash
+icingacli translation compile module training de_DE
+```
+
 PO/MO files are placed in:
 
 * `application/locale/<language>_<region>/LC_MESSAGES/<modulename>.po`
