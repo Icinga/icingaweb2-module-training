@@ -270,7 +270,11 @@ $r = Table::row([
 
 1. Extend the AssetsController with an `addAction()` that uses the AssetForm to add a new asset.
 
-# CSRF
+# Other Form Functionality
+
+The following is a list of additional features for working with forms.
+
+## CSRF Tokens
 
 The `ipl-web` library provides a `CsrfCounterMeasure` trait to simplify mitigating against cross-site request forgery.
 
@@ -291,3 +295,24 @@ use CsrfCounterMeasure;
 ```
 
 Always use `addElement()` for CSRF tokens, as `add()` only adds HTML content and does not register any form elements.
+The element the trait added will automatically perform validation for the token.
+
+Note, that when using other event handlers than `ON_SUCESS` you might need to manually evaluate the token by using
+its `isValid()` method.
+
+## Validators
+
+You can add `validators` to form elements, these can be specialized functions to validate the user input.
+The IPL also provides various Validators that you can use.
+
+```php
+use ipl\Validator\StringLengthValidator;
+
+$this->addElement('text', 'example_text, [
+    'description' => 'This text is limited to 255 characters',
+    'label' => 'Example Text',
+    'validators' => [new StringLengthValidator(['max' => 255])]
+]);
+```
+
+You can also write your own validators by implemening the `ipl\Stdlib\Contract\Validator` interface.
