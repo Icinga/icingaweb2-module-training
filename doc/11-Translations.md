@@ -81,7 +81,7 @@ msgstr ""
 "Project-Id-Version: Training Module\n"
 ```
 
-We recommend using the tool [poedit](https://poedit.net/). If you use poedit it will generate the MO files for you.  
+We recommend using the tool [Poedit](https://poedit.net/). If you use Poedit it will generate the MO files for you.  
 If you edit the file manually, you will need to run the following command to generate the MO files:
 
 ```bash
