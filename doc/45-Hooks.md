@@ -2,71 +2,51 @@
 
 Hooks are a way for one piece of code to interact another piece of code at specific, pre-defined spots.
 
-For example, Icinga Web provides a hook named `DetailviewExtensionHook` which is used when displaying the details of hosts and services:
+For example, IcingaDB Web Module provides hooks named `ServiceDetailExtensionHook` and `HostDetailExtensionHook` which are used when displaying the details of hosts and services.
+
+A hook is implemented as an abstract class, that we as a "hook provider" then can implement:
 
 ```php
-use Icinga\Web\Hook;
+namespace Icinga\Module\Icingadb\Hook;
 
-foreach (Hook::all('Monitoring\DetailviewExtension') as $hook) {
-    try {
-        $html = $hook->setView($this->view)->getHtmlForObjects($this->serviceList);
-    } catch (Exception $e) {
-        $html = $this->view->escape($e->getMessage());
-    }
-}
-```
-
-This snippet is from Icinga Web's `ServicesController`. Here we can see that we could use the `DetailviewExtension` hook
-to render custom HTML for a given object.
-
-The `Icinga\Web\Hook` class provides various methods to retrieve registered hook:
-
-* `Hook::has($name)`, whether or not someone registered the given hook name
-* `Hook::all($name)`, get the all hooks by name
-* `Hook::first($name)`, get the first hook by name
-
-A hook is implemented as an abstract class, that we as a "hook provider" then need to implement:
-
-```php
-namespace Icinga\Module\Monitoring\Hook;
-
-abstract class DetailviewExtensionHook
+abstract class HostDetailExtensionHook extends ObjectDetailExtensionHook
 {
-    abstract public function getHtmlForObject(MonitoredObject $object);
+    abstract public function getHtmlForObject(Host $host): ValidHtml;
 }
 ```
 
-These abstract classes are placed in the `library/<modulename>/Hook/` directory. For example: `library/Training/Hook/`.
+In our module we can provide a concrete class that implements - or "provides" - this hook.
 
-Now we can provide a concrete class that implements - or provides - this hook.
-
-These contract hooks are placed in the `library/<modulename>/ProvidedHook/` directory. For example: `library/Training/ProvidedHook/`:
+These implemented hooks are placed in the `library/<modulename>/ProvidedHook/` directory. For example: `library/Training/ProvidedHook/`:
 
 ```bash
-mkdir -p library/Training/ProvidedHook/Monitoring/`
+mkdir -p library/Training/ProvidedHook/Icingadb/`
 
-vim library/Training/ProvidedHook/Monitoring/DetailviewExtension.php
+vim library/Training/ProvidedHook/Icingadb/HostDetailExtension.php
 ```
 
-It's generally a good idea to create a folder for each module's hooks you provide (e.g. Monitoring, Director, etc.).
+It's generally a good idea to create a folder for each module's hooks you provide (e.g. Icingadb, Director, etc.).
 
-Within the provided hook we can implement the `getHtmlForObject()` method the `DetailviewExtensionHook` requires:
+Within the provided hook we can implement the `getHtmlForObject()` method the `HostDetailExtensionHook` requires:
 
 ```php
-// library/Training/ProvidedHook/Monitoring/DetailviewExtension.php
+// library/Training/ProvidedHook/Icingadb/HostDetailExtension.php
 
 <?php
 
 namespace Icinga\Module\Training\ProvidedHook\Monitoring;
 
-use Icinga\Module\Monitoring\Hook\DetailviewExtensionHook;
-use Icinga\Module\Monitoring\Object\MonitoredObject;
+use Icinga\Module\Icingadb\Hook\HostDetailExtensionHook;
+use Icinga\Module\Icingadb\Model\Host;
 
-class DetailviewExtension extends DetailviewExtensionHook
+use ipl\Html\Html;
+use ipl\Html\ValidHtml;
+
+class HostDetailExtension extends HostDetailExtensionHook
 {
-    public function getHtmlForObject(MonitoredObject $object)
+    public function getHtmlForObject(Host $host): ValidHtml
     {
-        return '<h2>Hello World</h2>';
+        return Html::tag('h2', 'A Hook Example');
     }
 }
 ```
@@ -81,24 +61,20 @@ We call this method in our module's `run.php` file in the root directory:
 
 <?php
 
-use Icinga\Module\Training\ProvidedHook\Monitoring\DetailviewExtension;
-
-$this->provideHook(
-    'monitoring/DetailviewExtension',
-    'Icinga\Module\Training\ProvidedHook\Monitoring\DetailviewExtension'
-);
+$this->provideHook('icingadb/HostDetailExtension');
 ```
 
-Here you can see that we register the `monitoring/DetailviewExtension` hook via our previously created class.
+Here you can see that we register the `icingadb/HostDetailExtension` hook via our previously created class.
 
-**Hint:** beware that code in `run.php` runs on every request, use it only when necessary (e.g. registering hooks).
+**Hint:** beware that code in `run.php` is loaded by the Icinga Web application on every request, when the module is enabled.
+Use it only when necessary (e.g. registering hooks).
 
-# Creating a Hook
+# Creating your own Hook
 
 In order to create our own Hook we first create an abstract class that represents the hook.
+These abstract classes are placed in the `library/<modulename>/Hook/` directory. For example: `library/Training/Hook/`.
 
 We will improve the `FileController.php` from the previous section by adding a hook:
-
 
 ```bash
 mkdir -p library/Training/Hook
@@ -113,13 +89,25 @@ The hook will take the file path as a parameter and return HTML for the view:
 
 namespace Icinga\Module\Training\Hook;
 
+use ipl\Html\ValidHtml;
+
 abstract class FileListViewHook
 {
-    abstract public function getHtmlForFile(string $filepath);
+    abstract public function getHtmlForFile(string $filepath): ValidHtml;
 }
 ```
 
-Now we update the FileController's `showAction` to get all `Training\FileListView` hooks anyone might have provided and then call the `getHtmlForFile` method:
+Hint: A hook can return anything, not just `ValidHtml`.
+
+Now anyone can implement this Hook in another module, register it and we can call its methods.
+
+The `Icinga\Web\Hook` class provides various methods to retrieve registered hook:
+
+* `Hook::has($name)`, whether or not someone registered the given hook name
+* `Hook::all($name)`, get the all hooks by name
+* `Hook::first($name)`, get the first hook by name
+
+We update the FileController's `showAction` to get all `Training\FileListView` hooks anyone might have provided and then call the `getHtmlForFile` method:
 
 ```php
 // application/controllers/FileController.php
@@ -154,32 +142,12 @@ class FileController extends Controller
             }
 
             if ($html) {
-                $this->view->extensionsHtml[] = $html;
+                $this->addContent($html);
             }
         }
 
     }
 }
-```
-
-We also need to update our view to display the new data:
-
-```php
-// application/views/scripts/file/show.phtml
-
-<div class="controls">
-<h1>File Details</h1>
-</div>
-
-<div class="content">
-<?= $this->filesize ?>
-
-<?php
-foreach ($extensionsHtml as $ext) {
-    echo $ext;
-}
-?>
-</div>
 ```
 
 Now users of our module can provide this hook to extend the controller's data.
@@ -203,15 +171,24 @@ For example, since we pass a path to a file we could retrieve its modification t
 
 namespace Icinga\Module\Training\ProvidedHook\Training;
 
+use ipl\Html\ValidHtml;
+
 use Icinga\Module\Training\Hook\FileListViewHook;
 
 class Example extends FileListViewHook
 {
-    public function getHtmlForFile(string $filepath)
+    public function getHtmlForFile(string $filepath): ValidHtml
     {
         if (file_exists($filepath)) {
             $mtime = filemtime($filepath);
-            return '<h2>File Modification Time</h2><p>'. $mtime. '</p>';
+
+            $main = HtmlElement::create('div', ['class' => 'file-details']);
+            $header = Html::tag('h2', 'File Modification Time'));
+            $content = Html::tag('h2', HtmlString::create($mtime));
+
+            $main->add($header);
+            $main->add($content);
+            return $main;
         }
     }
 }
@@ -226,9 +203,11 @@ Finally, we register our hook implementation in the `run.php`:
 
 use Icinga\Module\Training\ProvidedHook\Training\Example;
 
-$this->provideHook(
-    'training/FileListView',
-    'Icinga\Module\Training\ProvidedHook\Training\Example'
+// This is an example when the class providing the hook is named differently
+$this->provideHook('training/FileListView', 'Icinga\Module\Training\ProvidedHook\Training\Example'
+
+// If we would have named the class FileListView instead of Example
+// $this->provideHook('training/FileListView');
 );
 ```
 
