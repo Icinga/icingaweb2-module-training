@@ -1,7 +1,7 @@
-# Digging Deeper – The Icinga Web 2 Builtin Libraries
+# Digging Deeper – The Icinga Web Builtin Libraries
 
-Icinga Web 2 itself already provides some useful libraries which can be used inside of your module.
-These libraries can be found inside of the library directory of [Icinga Web 2](https://github.com/Icinga/icingaweb2/tree/main/library/Icinga/Web)
+Icinga Web itself already provides some useful libraries which can be used inside of your module.
+These libraries can be found inside of the library directory of [Icinga Web](https://github.com/Icinga/icingaweb2/tree/main/library/Icinga/Web)
 
 ## Useful Libraries
 
@@ -9,9 +9,9 @@ The following will list some of the available functionalities you can implement 
 
 ### FileCache
 
-To implement a cache logic into your module, you can use the [FileCache](https://github.com/Icinga/icingaweb2/blob/main/library/Icinga/Web/FileCache.php) class.  
+To implement a cache logic into your module, you can use the [FileCache](https://github.com/Icinga/icingaweb2/blob/main/library/Icinga/Web/FileCache.php) class.
 
-`FileCache` can be used to write and read a cache at file level. Files will be saved into the `sys_get_temp_dir()`.  
+`FileCache` can be used to write and read a cache at file level. Files will be saved into the `sys_get_temp_dir()`.
 The `FileCache` class has no cache invalidation implemented. If this is necessary for your use case, you will have to implement this by yourself.
 
 ```php
@@ -44,7 +44,7 @@ protected function storeCache($storageName, $data): void
 protected function loadCache($storageName): string
 {
     $cachedData = null;
-    
+
     try {
         $cache = FileCache::instance('training');
         $cachedData = $cache->get($storageName);
