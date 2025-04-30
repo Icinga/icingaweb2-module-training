@@ -1,8 +1,9 @@
 # Hooks
 
-Hooks are a way for one piece of code to interact another piece of code at specific, pre-defined spots.
+Hooks can be used to have pre-defined spots for methods that are then interchangeable.
+Meaning, you can separate implementation details from places where functionality is required.
 
-For example, IcingaDB Web Module provides hooks named `ServiceDetailExtensionHook` and `HostDetailExtensionHook` which are used when displaying the details of hosts and services.
+For example, the IcingaDB Web Module provides hooks named `ServiceDetailExtensionHook` and `HostDetailExtensionHook` which we can implement in our own module to extend the details of hosts and services.
 
 A hook is implemented as an abstract class, that we as a "hook provider" then can implement:
 
