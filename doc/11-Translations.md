@@ -39,6 +39,18 @@ class Directory
     use Translation;
 ```
 
+The much shorter `t()` method can be used as an alternative to `translate()`:
+
+```php
+t('Hello');
+```
+
+You can use substitution to have more flexible translations:
+
+```php
+translate(sprintf('Hello to the user %s', $username));
+```
+
 Further information on internationalization can be found here:
 
 * [gettext Documentation](https://www.gnu.org/software/gettext/)
