@@ -42,13 +42,16 @@ class Directory
 The much shorter `t()` method can be used as an alternative to `translate()`:
 
 ```php
-t('Hello');
+$this->t('Hello');
 ```
 
 You can use substitution to have more flexible translations:
 
 ```php
-translate(sprintf('Hello to the user %s', $username));
+$username = 'Anita Bath';
+
+$msg = $this->translate('Hello to the user %s');
+sprintf($msg, $username);
 ```
 
 Further information on internationalization can be found here:
