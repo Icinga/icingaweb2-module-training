@@ -60,7 +60,7 @@ The `ipl\Web\Widget\Link` class provides a simple way to create a HTML link.
 
 ```php
 use ipl\Web\Widget\Link;
-$l = new Link('content', 'url', ['class' => mylink']);
+$l = new Link('content', 'url', ['class' => 'mylink']);
 
 // Result: <a class="mylink" href="/url">content</a>
 ```
