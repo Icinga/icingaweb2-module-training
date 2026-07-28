@@ -6,17 +6,28 @@ This documents provides a concise list of best practices for writing Icinga Web 
 * The IPL and Icinga-PHP-Thirdparty cover many use cases, these libraries should be used instead of custom implementations.
 * Views scripts in HTML must be avoided, instead use the ipl-html and ipl-web, which lets you write HTML in PHP and an object oriented way.
 * All user-facing text should be wrapped with a translation method from `ipl\I18n\Translation`. Either `$this->translate()` or `$this->t()`.
+* Zend import must be avoided, assume there is an idiomatic Icinga Web/IPL way instead.
 * Controllers should use the class `ipl\Web\Compat\CompatController`.
 * Forms should use the class `ipl\Web\Compat\CompatForm` or `ipl\Html\Form`.
 * Forms should validate user input with `ipl\Validator`.
+* HTTP requests should use GuzzleHTTP provided by Icinga-PHP-Thirdparty.
+* JavaScript code can use jQuery provided by Icinga Web, but should use native alternatives if available.
+* All code should work with Icinga Web's strict CSP
+
+## Database
+
 * Database connections should use an Icinga Web Resource for the connection configuration.
 * Database queries should use the ipl-orm and ipl-sql. An ORM approach is recommended.
 * Database migrations should use the DbMigrationHook.
 * Schema files use the `schema/` directory, migratrions the in `schema/mysql-upgrades/` and `schema/pgsql-upgrades/`.
-* HTTP requests should use GuzzleHTTP provided by Icinga-PHP-Thirdparty.
-* JavaScript code can use jQuery provided by Icinga Web, but should use native alternatives if available.
 
-## Directory structure
+## Module directory structure
+
+General:
+
+* `module.info` contains metadata, version and dependencies
+* `run.php` is used to register hooks
+* `doc/` is the directory for Markdown documentation
 
 The application directory:
 
