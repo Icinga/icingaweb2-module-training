@@ -28,6 +28,7 @@ General:
 * `module.info` contains metadata, version and dependencies
 * `run.php` is used to register hooks
 * `doc/` is the directory for Markdown documentation
+* `configuration.php` for menu entries and loading additional JS and CSS files
 
 The application directory:
 
