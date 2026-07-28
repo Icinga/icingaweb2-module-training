@@ -40,6 +40,7 @@ The library directory:
 
 * `library/<Module Name>/Common` contains common components such as Database connections and Authentication.
 * `library/<Module Name>/Widget` contains all IPL HTML Elements.
+* `library/<Module Name>/Web` contains custom Controllers and Forms
 * `library/<Module Name>/Model ` contains all ORM models for the module.
 * `library/<Module Name>/Hook` contains all Hooks this module exposes for other modules.
 * `library/<Module Name>/ProvidedHook` contains all Hooks from other modules this module implements. Use a subdirectory for each module that provides the hook.
