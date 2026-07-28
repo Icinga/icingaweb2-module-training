@@ -1,6 +1,6 @@
 # The Web Module
 
-Icinga Web modules follow the **model–view–controller (MVC)** pattern.
+Icinga Web modules follow the **model view controller (MVC)** pattern.
 
 * Model manages data and business logic
 * View handles the user interface
@@ -96,6 +96,9 @@ Some content...
 
 This automatically gives even spacing to the page margins, and also makes it so that when scrolling down,
 the `controls` stay stationary, while the `content` scrolls.
+
+**Note:** Using these HTML views is not recommended anymore.
+The PHP librarby `ipl-html` is a HTML abstraction layer, which lets you write HTML in an object oriented way.
 
 ## Menu Entry and Dashboard
 

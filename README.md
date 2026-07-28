@@ -4,7 +4,7 @@
 
 This module is a guide to help you write your own modules for **Icinga Web**.
 
-We also provide Video tutorials for this training:
+We also provide video tutorials for this training:
 
 https://www.youtube.com/playlist?list=PLVDjq9pYkysDUk0imvEGDg5TpybsLHiUh
 
