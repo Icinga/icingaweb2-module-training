@@ -33,7 +33,7 @@ The application directory:
 
 * `application/clicommands` contains all CLI Commands.
 * `application/controllers` contains all controllers.
-* `application/forms` contains all Forms.
+* `application/forms` should be avoided,instead use `library/<Module Name>/Web` for Forms
 * `application/views` should be avoided, instead use IPL HTML.
 
 The library directory:
