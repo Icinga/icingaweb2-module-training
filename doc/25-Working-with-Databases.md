@@ -312,7 +312,7 @@ $relations->hasMany('customer', Customer::class)
 
 ## Behaviors
 
-Behaviors are a way to re-use functionality that is common across many models.
+Behaviors are a way to reuse functionality that is common across many models.
 Conceptually they are similar to PHP traits.
 
 For example, many models might use a timestamp field and the logic to manage these fields is not specific to any one model.

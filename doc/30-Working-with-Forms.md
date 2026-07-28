@@ -315,4 +315,4 @@ $this->addElement('text', 'example_text, [
 ]);
 ```
 
-You can also write your own validators by implemening the `ipl\Stdlib\Contract\Validator` interface.
+You can also write your own validators by implementing the `ipl\Stdlib\Contract\Validator` interface.

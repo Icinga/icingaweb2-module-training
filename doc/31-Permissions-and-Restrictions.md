@@ -74,7 +74,7 @@ Now we need to access this restriction in our controllers to modify what the use
 
 Since restrictions can be complex expressions the IPL provides the tools to parse these patterns.
 
-A good place for this is a trait that we can re-use across our module:
+A good place for this is a trait that we can reuse across our module:
 
 ```php
 // vim library/Training/Auth.php
