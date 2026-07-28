@@ -160,7 +160,7 @@ $this->menuSection('Training'), [
 
 ## Dashboards
 
-Dasboards can also be created in the `configuration.php` file.
+Dashboards can also be created in the `configuration.php` file.
 
 ```php
 <?php
@@ -217,7 +217,7 @@ We can now expand our `world.phtml` view and display the new data:
 
 ### Training Task: 1
 
-1. Create a controller that creates a table of this modules's files at `training/list/files`
+1. Create a controller that creates a table of this modules' files at `training/list/files`
 
 Note: `$this->Module()->getBaseDir()` returns the module's directory
 

@@ -105,7 +105,7 @@ To get started, we need Icinga Web. For installing Icinga Web please check the
 [installation from source chapter](https://icinga.com/docs/icinga-web/latest/doc/02-Installation/07-From-Source/)
 in the documentation.
 
-This also requires the Icinga PHP Library (ipl) and the Icinga PHP Thirdparty libraries (includes the Zend Framework).
+This also requires the Icinga PHP Library (ipl) and the Icinga PHP third party libraries (includes the Zend Framework).
 
 Icinga Web provides an internal web server for development:
 
