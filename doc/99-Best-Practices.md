@@ -5,7 +5,7 @@ This documents provides a concise list of best practices for writing Icinga Web 
 * The module.info should declare all dependencies (and their versions) of a module.
 * The IPL and Icinga-PHP-Thirdparty cover many use cases, these libraries should be used instead of custom implementations.
 * Views scripts in HTML must be avoided, instead use the ipl-html and ipl-web, which lets you write HTML in PHP and an object oriented way.
-* All user-facing text should be wrapped with a translation method from `ipl\I18n\Translation`. Either `$this->translate()` or `$this->t()`.
+* All user-facing text should be wrapped with a translation method from `ipl\I18n\Translation`. Either `$this->translate()` or `t()`.
 * Zend import must be avoided, assume there is an idiomatic Icinga Web/IPL way instead.
 * Controllers should use the class `ipl\Web\Compat\CompatController`.
 * Forms should use the class `ipl\Web\Compat\CompatForm` or `ipl\Html\Form`.
