@@ -61,8 +61,12 @@ We call this method in our module's `run.php` file in the root directory:
 // run.php
 
 <?php
+use Icinga\Module\Training\ProvidedHook\HostDetailExtension;
 
-$this->provideHook('icingadb/HostDetailExtension');
+HostDetailExtension::register();
+
+// Note, if a hook does not use HookEssentials, you need to register it like this:
+// $this->provideHook('icingadb/HostDetailExtension');
 ```
 
 Here you can see that we register the `icingadb/HostDetailExtension` hook via our previously created class.
@@ -90,10 +94,20 @@ The hook will take the file path as a parameter and return HTML for the view:
 
 namespace Icinga\Module\Training\Hook;
 
+use Icinga\Application\Hook\HookEssentials;
 use ipl\Html\ValidHtml;
 
 abstract class FileListViewHook
 {
+    // The HookEssentials trait provides the Icinga Web internal mechanism for hook registration and retrieval.
+    // It was introduced with Icinga Web 2.14.0.
+    use HookEssentials;
+
+    final protected static function getHookName(): string
+    {
+        return 'filelist';
+    }
+
     abstract public function getHtmlForFile(string $filepath): ValidHtml;
 }
 ```
@@ -201,14 +215,9 @@ Finally, we register our hook implementation in the `run.php`:
 // run.php
 
 <?php
+use Icinga\Module\Training\ProvidedHook\Example;
 
-use Icinga\Module\Training\ProvidedHook\Training\Example;
-
-// This is an example when the class providing the hook is named differently
-$this->provideHook('training/FileListView', 'Icinga\Module\Training\ProvidedHook\Training\Example'
-
-// If we would have named the class FileListView instead of Example
-// $this->provideHook('training/FileListView');
+Example::register();
 );
 ```
 
