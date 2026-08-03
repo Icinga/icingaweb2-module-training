@@ -9,14 +9,16 @@ The [IPL](https://github.com/Icinga/icinga-php-library) is a bundle of multiple 
   * This is a HTML abstraction layer. Essentially, it is the successor of what you already learned about view scripts. It lets you write HTML in an object oriented way
 * [ipl-i18n](https://github.com/Icinga/ipl-i18n)
   * This bundles everything related to internationalisation
-* [ipl-orm](https://github.com/Icinga/ipl-orm)
-  * Icinga's object-relational mapper that makes working with your databases a breeze
 * [ipl-sql](https://github.com/Icinga/ipl-sql)
   * A SQL abstraction layer. Builds on top of PHP's `PDO` and provides an object oriented way to access a database
+* [ipl-orm](https://github.com/Icinga/ipl-orm)
+  * Icinga's object-relational mapper that makes working with your databases a breeze
 * [ipl-stdlib](https://github.com/Icinga/ipl-stdlib)
   * Just a collection of various useful functions, classes and utilities
 * [ipl-validator](https://github.com/Icinga/ipl-validator)
   * Provides common validators (email addresses, date-and-time, X.509 certificates, etc.)
+* [ipl-scheduler](https://github.com/Icinga/ipl-scheduler)
+  * Provides an event-loop-driven task scheduler for PHP. It runs tasks at regular intervals or once at a specific time.
 * [ipl-web](https://github.com/Icinga/ipl-web)
   * It combines all other parts to provide useful widgets and base implementations for such. If you want to extend your views with controls such as the mighty `Search Bar` or maybe a `SortControl` and a `LimitControl`, this provides them.
 
