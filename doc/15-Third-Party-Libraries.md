@@ -112,14 +112,6 @@ The `module.js` file in the directory `public/js` is used for adding custom Java
 
 Icinga Web will add this code to its `js/icinga.min.js`, the unminified version of this can be found at `js/icinga.js`.
 
-```
-vim public/js/module.js
-
-(function(Icinga) {
-    alert("Hello World");
-}(Icinga));
-```
-
 Additional JavaScript files from the `public/js` directory can be loaded via the `configuration.php` file:
 
 ```php
