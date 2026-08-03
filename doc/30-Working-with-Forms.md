@@ -5,7 +5,7 @@ The section builds upon the previous "Table of Assets" section.
 
 HTML Forms allow us to manipulate data. To create forms for Icinga Web we use or extend the `Form` class provided by `ipl-html`.
 
-All custom form classes should be created in `application/forms`.
+All custom form classes should be created in `library/<Module Name>/Form`.
 
 ## ipl\Html\Form
 
@@ -68,7 +68,7 @@ These classes are generally used when you want to work with `.ini` based data.
 
 ## Creating an AssetForm
 
-First we create an AssetForm in `application/forms/AssetForm.php`.
+First we create an AssetForm in `library/Training/Form/AssetForm.php`.
 
 In its constructor we will pass the database connection, so that we can update the data when the submit button is pressed.
 
@@ -77,7 +77,7 @@ Within the `assemble()` method we add the required HTML elements.
 ```php
 <?php
 
-namespace Icinga\Module\Training\Forms;
+namespace Icinga\Module\Training\Form;
 
 use ipl\Sql\Connection;
 use ipl\Web\Compat\CompatForm;
@@ -162,7 +162,7 @@ namespace Icinga\Module\Training\Controllers;
 
 use Icinga\Web\Notification;
 
-use Icinga\Module\Training\Forms\AssetForm;
+use Icinga\Module\Training\Form\AssetForm;
 use Icinga\Module\Training\Model\Asset;
 use Icinga\Module\Training\Model\User;
 use ipl\Html\Html;

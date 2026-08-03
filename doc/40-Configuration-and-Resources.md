@@ -19,12 +19,12 @@ $this->provideConfigTab(
 
 We now need to create a Controller that will provide the `config/database` endpoint and a Form that will be shown there.
 
-To begin we create a simple Form at `application/forms/DatabaseConfigForm.php`. We will use this Form to set the name of our currently hard-coded `assets.sqlite` database file.
+To begin we create a simple Form at `library/Training/Form/DatabaseConfigForm.php`. We will use this Form to set the name of our currently hard-coded `assets.sqlite` database file.
 
 ```php
 <?php
 
-namespace Icinga\Module\Training\Forms;
+namespace Icinga\Module\Training\Form;
 
 use ipl\Web\Compat\CompatForm;
 
@@ -71,7 +71,7 @@ The ConfigController could look like this:
 
 namespace Icinga\Module\Training\Controllers;
 
-use Icinga\Module\Training\Forms\DatabaseConfigForm;
+use Icinga\Module\Training\Form\DatabaseConfigForm;
 
 use Icinga\Application\Config;
 use Icinga\Web\Widget\Tab;

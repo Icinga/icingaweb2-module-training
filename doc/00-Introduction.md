@@ -72,11 +72,11 @@ An extensive module could have approximately the following structure:
         ├── application
         │   ├── clicommands     CLI Commands
         │   ├── controllers     Web Controller
-        │   ├── forms           Forms
+        │   ├── forms           Forms (should not be used anymore, use the library directory instead)
         │   ├── locale          Translations
         │   └── views
-        │       ├── helpers     View Helper
-        │       └── scripts     View Scripts
+        │       ├── helpers     View Helper (should not be used anymore, mentioned only for completeness)
+        │       └── scripts     View Scripts (should not be used anymore, mentioned only for completeness)
         ├── configuration.php   Deploy menu, dashlets, permissions
         ├── doc                 Documentation
         ├── library
