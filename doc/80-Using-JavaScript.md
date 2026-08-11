@@ -96,7 +96,7 @@ Note, in this example we pass jQuery (`$`), which is bundled with Icinga Web, to
 
     "use strict";
 
-    class Notifications {
+    class ExampleModule {
         constructor(module) {
             this.icinga = module.icinga;
 
@@ -118,7 +118,7 @@ Note, in this example we pass jQuery (`$`), which is bundled with Icinga Web, to
         }
     }
 
-    Icinga.availableModules.notifications = Notifications;
+    Icinga.availableModules.examplemodule = ExampleModule;
 
 })(Icinga, jQuery);
 ```
